@@ -119,9 +119,10 @@
 {
 	ZBPixnetAPI *API = [ZBPixnetAPI sharedAPI];
 	
-	[API fetchAccountInfoWithDelegate:self];
-	[API fetchUserInfoWithUserID:@"far" delegate:self];
-	[API fetchBlogCategoriesWithUserID:@"far" password:nil delegate:self];	
+//	[API fetchAccountInfoWithDelegate:self];
+//	[API fetchUserInfoWithUserID:@"far" delegate:self];
+//	[API fetchBlogCategoriesWithUserID:@"far" password:nil delegate:self];	
+	[API createBlogCategorieWithCategoryName:@"Test" description:@"Just a test" type:0 visible:YES siteCategoryID:@"0" delegate:self];
 }
 
 - (void)API:(ZBPixnetAPI *)inAPI didFetchAccountInfo:(NSDictionary *)accountInfo
@@ -145,6 +146,14 @@
 	NSLog(@"%s %@", __PRETTY_FUNCTION__, inBlogCategories);
 }
 - (void)API:(ZBPixnetAPI *)inAPI didFailFetchingBlogCategories:(NSError *)inError
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didCreateBlogCategory:(NSDictionary *)inBlogCategory
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inBlogCategory);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFailCreatingBlogCategoriy:(NSError *)inError
 {
 	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
 }

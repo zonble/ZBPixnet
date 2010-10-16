@@ -2,6 +2,8 @@
 #import "APIKey.h"
 #import "NSDictionary+BSJSONAdditions.h"
 #import "NSScanner+BSJSONAdditions.h"
+#import "NSMutableURLRequest+Parameters.h"
+#import "OARequestParameter.h"
 
 static ZBPixnetAPI *sharedAPI;
 
@@ -20,7 +22,7 @@ NSString *const ZBPixnetAPILogoutNotification = @"ZBPixnetAPILogoutNotification"
 @interface ZBPixnetAPI (Private) <ZBLoginWebViewControllerDelegate>
 - (void)fetchRequestToken;
 - (void)fetchAccessTokenWithVerifier:(NSString *)inVerifier;
-- (void)doFetchWithPath:(NSString *)path method:(NSString *)method delegate:(id)delegate didFinishSelector:(SEL)didFinishSelector didFailSelector:(SEL)didFailSelector HTTPBody:(NSData *)HTTPBody;
+- (void)doFetchWithPath:(NSString *)path method:(NSString *)method delegate:(id)delegate didFinishSelector:(SEL)didFinishSelector didFailSelector:(SEL)didFailSelector parameters:(NSArray *)inParameters;
 @end
 
 @implementation ZBPixnetAPI
@@ -78,50 +80,55 @@ NSString *const ZBPixnetAPILogoutNotification = @"ZBPixnetAPILogoutNotification"
 }
 
 #pragma mark -
-
-- (NSString *)stringFromParameters:(NSDictionary *)inParameters
-{
-	if (![[inParameters allKeys] count]) {
-		return @"";
-	}
-	NSMutableString *s = [NSMutableString string];
-	for (NSString *key in [inParameters allKeys]) {
-		NSString *v = [inParameters valueForKey:key];
-		if ([v length]) {
-			if (![s length]) {
-				[s appendFormat:@"?%@=%@", key, [v stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-			}
-			else {
-				[s appendFormat:@"&%@=%@", key, [v stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-			}
-		}
-	}
-	return s;	
-}
+#pragma mark Account
 
 - (void)fetchAccountInfoWithDelegate:(id)delegate
 {
-	[self doFetchWithPath:kAccount method:@"GET" delegate:delegate didFinishSelector:@selector(API:didFetchAccountInfo:) didFailSelector:@selector(API:didFailFetchingAccountInfo:) HTTPBody:nil];	
+	[self doFetchWithPath:kAccount method:@"GET" delegate:delegate didFinishSelector:@selector(API:didFetchAccountInfo:) didFailSelector:@selector(API:didFailFetchingAccountInfo:) parameters:nil];	
 }
 
 - (void)fetchUserInfoWithUserID:(NSString *)userID delegate:(id <ZBPixnetAPIDelegate>)delegate
 {
 	NSString *path = [NSString stringWithFormat:kUserInfo, [userID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-	[self doFetchWithPath:path method:@"GET" delegate:delegate didFinishSelector:@selector(API:didFetchUserInfo:) didFailSelector:@selector(API:didFailFetchingUserInfo:) HTTPBody:nil];	
+	[self doFetchWithPath:path method:@"GET" delegate:delegate didFinishSelector:@selector(API:didFetchUserInfo:) didFailSelector:@selector(API:didFailFetchingUserInfo:) parameters:nil];	
 }
+
+#pragma mark Blog
 
 - (void)fetchBlogCategoriesWithUserID:(NSString *)userID password:(NSString *)password delegate:(id <ZBPixnetAPIDelegate>)delegate
 {
-	NSMutableDictionary *d = [NSMutableDictionary dictionary];
+	NSMutableArray *parameters = [NSMutableArray array];
 	if ([userID length]) {
-		[d setValue:userID forKey:@"user"];
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"user" value:userID] autorelease]];
 	}
 	if ([password length]) {
-		[d setValue:userID forKey:@"password"];
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"blog_password" value:password] autorelease]];
 	}
-	NSString *path = [kblogCategories stringByAppendingString:[self stringFromParameters:d]];
-	[self doFetchWithPath:path method:@"GET" delegate:delegate didFinishSelector:@selector(API:didFetchBlogCategories:) didFailSelector:@selector(API:didFailFetchingBlogCategories:) HTTPBody:nil];	
+	[self doFetchWithPath:kblogCategories method:@"GET" delegate:delegate didFinishSelector:@selector(API:didFetchBlogCategories:) didFailSelector:@selector(API:didFailFetchingBlogCategories:) parameters:parameters];	
 }
+
+- (void)createBlogCategorieWithCategoryName:(NSString *)categoryName description:(NSString *)description type:(ZBPixnetBlogCategoryType)type visible:(BOOL)visible siteCategoryID:(NSString *)siteCategoryID delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+	NSMutableArray *parameters = [NSMutableArray array];
+	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"name" value:categoryName] autorelease]];
+	if ([description length]) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"description" value:description] autorelease]];
+	}
+
+	if (type == ZBPixnetBlogCategoryTypeCategory) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"type" value:@"category"] autorelease]];
+	}
+	else if (type == ZBPixnetBlogCategoryTypeFolder) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"type" value:@"folder"] autorelease]];
+	}		
+	
+	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"show_index" value:[[NSNumber numberWithBool:visible] stringValue]] autorelease]];
+	if (siteCategoryID) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"site_category_id" value:siteCategoryID] autorelease]];
+	}
+	[self doFetchWithPath:kblogCategories method:@"POST" delegate:delegate didFinishSelector:@selector(API:didFetchBlogCategories:) didFailSelector:@selector(API:didFailFetchingBlogCategories:) parameters:parameters];	
+}
+
 
 
 #pragma mark -
@@ -244,14 +251,16 @@ NSString *const ZBPixnetAPILogoutNotification = @"ZBPixnetAPILogoutNotification"
 
 #pragma mark -
 
-- (void)doFetchWithPath:(NSString *)path method:(NSString *)method delegate:(id)delegate didFinishSelector:(SEL)didFinishSelector didFailSelector:(SEL)didFailSelector HTTPBody:(NSData *)HTTPBody
+- (void)doFetchWithPath:(NSString *)path method:(NSString *)method delegate:(id)delegate didFinishSelector:(SEL)didFinishSelector didFailSelector:(SEL)didFailSelector parameters:(NSArray *)inParameters
 {
 	NSString *URLString = [NSString stringWithFormat:@"%@%@", kPixetAPIURL, path];
 	NSURL *URL = [NSURL URLWithString:URLString];
 	OAMutableURLRequest *request = [[[OAMutableURLRequest alloc] initWithURL:URL consumer:consumer token:self.accessToken realm:nil signatureProvider:nil] autorelease];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:NSStringFromSelector(didFinishSelector), @"didFinishSelector", NSStringFromSelector(didFailSelector), @"didFailSelector", delegate, @"delegate", nil];
 	[request setHTTPMethod:method];
-	[request setHTTPBody:HTTPBody];
+	if ([inParameters count]) {
+		[request setParameters:inParameters];
+	}
 	ZBFetchOperation *operation = [[ZBFetchOperation alloc] init:request delegate:self didFinishSelector:@selector(pixnetAPITicket:didFinishWithData:) didFailSelector:@selector(pixnetAPITicket:didFailWithError:) userInfo:userInfo];
 	[fetchQueue addOperation:operation];
 	[operation autorelease];	
