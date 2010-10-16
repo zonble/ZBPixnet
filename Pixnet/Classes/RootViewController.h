@@ -3,7 +3,7 @@
 //  PartRetard
 //
 
-#import "ZBPixnetAPI.h"
+#import "ZBPixnet.h"
 
 @interface RootViewController : UITableViewController <ZBPixnetAPILoginDelegate, ZBPixnetAPIDelegate>
 {

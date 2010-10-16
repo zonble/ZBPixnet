@@ -31,7 +31,6 @@
 		D4499CED12428C7D0057969C /* OAToken.m in Sources */ = {isa = PBXBuildFile; fileRef = D4499CD812428C7D0057969C /* OAToken.m */; };
 		D4499CEE12428C7D0057969C /* OATokenManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D4499CDA12428C7D0057969C /* OATokenManager.m */; };
 		D4499CF512428CCD0057969C /* ZBPixnetAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = D4499CF412428CCD0057969C /* ZBPixnetAPI.m */; };
-		D4499D6B124296CE0057969C /* ZBLoginWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4499D6A124296CE0057969C /* ZBLoginWebViewController.m */; };
 		D4591DFC1269FDB400F41FFB /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D4591DFB1269FDB400F41FFB /* libxml2.dylib */; };
 		D4591F79126A16C000F41FFB /* ZBFetchOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = D4591F78126A16C000F41FFB /* ZBFetchOperation.m */; };
 		D4592122126A2B0D00F41FFB /* NSArray+BSJSONAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D4592119126A2B0D00F41FFB /* NSArray+BSJSONAdditions.m */; };
@@ -39,6 +38,9 @@
 		D4592124126A2B0D00F41FFB /* NSScanner+BSJSONAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D459211D126A2B0D00F41FFB /* NSScanner+BSJSONAdditions.m */; };
 		D4592125126A2B0D00F41FFB /* NSString+BSJSONAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D459211F126A2B0D00F41FFB /* NSString+BSJSONAdditions.m */; };
 		D4592126126A2B0D00F41FFB /* BSJSONEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D4592121126A2B0D00F41FFB /* BSJSONEncoder.m */; };
+		D4592452126A6EAA00F41FFB /* ZBPixnetAPI+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = D4592451126A6EAA00F41FFB /* ZBPixnetAPI+Private.m */; };
+		D45924B1126A71A300F41FFB /* ZBLoginWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D45924B0126A71A300F41FFB /* ZBLoginWebViewController.m */; };
+		D45924B4126A71AC00F41FFB /* ZBPixnetAPI+Pixnet.m in Sources */ = {isa = PBXBuildFile; fileRef = D45924B3126A71AC00F41FFB /* ZBPixnetAPI+Pixnet.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -92,8 +94,6 @@
 		D4499CF312428CCD0057969C /* ZBPixnetAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZBPixnetAPI.h; path = API/ZBPixnetAPI.h; sourceTree = "<group>"; };
 		D4499CF412428CCD0057969C /* ZBPixnetAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZBPixnetAPI.m; path = API/ZBPixnetAPI.m; sourceTree = "<group>"; };
 		D4499D1F12428E100057969C /* APIKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APIKey.h; path = API/APIKey.h; sourceTree = "<group>"; };
-		D4499D69124296CE0057969C /* ZBLoginWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBLoginWebViewController.h; sourceTree = "<group>"; };
-		D4499D6A124296CE0057969C /* ZBLoginWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBLoginWebViewController.m; sourceTree = "<group>"; };
 		D4591DFB1269FDB400F41FFB /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		D4591F77126A16C000F41FFB /* ZBFetchOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZBFetchOperation.h; path = API/ZBFetchOperation.h; sourceTree = "<group>"; };
 		D4591F78126A16C000F41FFB /* ZBFetchOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZBFetchOperation.m; path = API/ZBFetchOperation.m; sourceTree = "<group>"; };
@@ -107,6 +107,13 @@
 		D459211F126A2B0D00F41FFB /* NSString+BSJSONAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+BSJSONAdditions.m"; path = "../ExternalLibraries/bsjsonadditions/NSString+BSJSONAdditions.m"; sourceTree = SOURCE_ROOT; };
 		D4592120126A2B0D00F41FFB /* BSJSONEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSJSONEncoder.h; path = ../ExternalLibraries/bsjsonadditions/BSJSONEncoder.h; sourceTree = SOURCE_ROOT; };
 		D4592121126A2B0D00F41FFB /* BSJSONEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSJSONEncoder.m; path = ../ExternalLibraries/bsjsonadditions/BSJSONEncoder.m; sourceTree = SOURCE_ROOT; };
+		D4592450126A6EAA00F41FFB /* ZBPixnetAPI+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ZBPixnetAPI+Private.h"; path = "API/ZBPixnetAPI+Private.h"; sourceTree = "<group>"; };
+		D4592451126A6EAA00F41FFB /* ZBPixnetAPI+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "ZBPixnetAPI+Private.m"; path = "API/ZBPixnetAPI+Private.m"; sourceTree = "<group>"; };
+		D4592487126A70D400F41FFB /* ZBPixnet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZBPixnet.h; path = API/ZBPixnet.h; sourceTree = "<group>"; };
+		D45924AF126A71A300F41FFB /* ZBLoginWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZBLoginWebViewController.h; path = API/ZBLoginWebViewController.h; sourceTree = "<group>"; };
+		D45924B0126A71A300F41FFB /* ZBLoginWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZBLoginWebViewController.m; path = API/ZBLoginWebViewController.m; sourceTree = "<group>"; };
+		D45924B2126A71AC00F41FFB /* ZBPixnetAPI+Pixnet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ZBPixnetAPI+Pixnet.h"; path = "API/ZBPixnetAPI+Pixnet.h"; sourceTree = "<group>"; };
+		D45924B3126A71AC00F41FFB /* ZBPixnetAPI+Pixnet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "ZBPixnetAPI+Pixnet.m"; path = "API/ZBPixnetAPI+Pixnet.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -258,12 +265,17 @@
 			isa = PBXGroup;
 			children = (
 				D4499D1F12428E100057969C /* APIKey.h */,
+				D4592487126A70D400F41FFB /* ZBPixnet.h */,
 				D4499CF312428CCD0057969C /* ZBPixnetAPI.h */,
 				D4499CF412428CCD0057969C /* ZBPixnetAPI.m */,
-				D4499D69124296CE0057969C /* ZBLoginWebViewController.h */,
-				D4499D6A124296CE0057969C /* ZBLoginWebViewController.m */,
+				D45924B2126A71AC00F41FFB /* ZBPixnetAPI+Pixnet.h */,
+				D45924B3126A71AC00F41FFB /* ZBPixnetAPI+Pixnet.m */,
+				D4592450126A6EAA00F41FFB /* ZBPixnetAPI+Private.h */,
+				D4592451126A6EAA00F41FFB /* ZBPixnetAPI+Private.m */,
 				D4591F77126A16C000F41FFB /* ZBFetchOperation.h */,
 				D4591F78126A16C000F41FFB /* ZBFetchOperation.m */,
+				D45924AF126A71A300F41FFB /* ZBLoginWebViewController.h */,
+				D45924B0126A71A300F41FFB /* ZBLoginWebViewController.m */,
 			);
 			name = API;
 			sourceTree = "<group>";
@@ -366,13 +378,15 @@
 				D4499CED12428C7D0057969C /* OAToken.m in Sources */,
 				D4499CEE12428C7D0057969C /* OATokenManager.m in Sources */,
 				D4499CF512428CCD0057969C /* ZBPixnetAPI.m in Sources */,
-				D4499D6B124296CE0057969C /* ZBLoginWebViewController.m in Sources */,
 				D4591F79126A16C000F41FFB /* ZBFetchOperation.m in Sources */,
 				D4592122126A2B0D00F41FFB /* NSArray+BSJSONAdditions.m in Sources */,
 				D4592123126A2B0D00F41FFB /* NSDictionary+BSJSONAdditions.m in Sources */,
 				D4592124126A2B0D00F41FFB /* NSScanner+BSJSONAdditions.m in Sources */,
 				D4592125126A2B0D00F41FFB /* NSString+BSJSONAdditions.m in Sources */,
 				D4592126126A2B0D00F41FFB /* BSJSONEncoder.m in Sources */,
+				D4592452126A6EAA00F41FFB /* ZBPixnetAPI+Private.m in Sources */,
+				D45924B1126A71A300F41FFB /* ZBLoginWebViewController.m in Sources */,
+				D45924B4126A71AC00F41FFB /* ZBPixnetAPI+Pixnet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
