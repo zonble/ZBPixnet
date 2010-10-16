@@ -9,6 +9,7 @@ extern NSString *const ZBPixnetAPILoginNotification;
 extern NSString *const ZBPixnetAPILogoutNotification;
 
 @protocol ZBPixnetAPILoginDelegate <NSObject>
+@required
 - (void)APIUserDidCancelLoggingin:(ZBPixnetAPI *)inAPI;
 - (void)APIDidLogin:(ZBPixnetAPI *)inAPI;
 @optional
@@ -17,11 +18,16 @@ extern NSString *const ZBPixnetAPILogoutNotification;
 @end
 
 @protocol ZBPixnetAPIDelegate <NSObject>
+
 - (void)API:(ZBPixnetAPI *)inAPI didFetchAccountInfo:(NSDictionary *)inAccountInfo;
 - (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAccountInfo:(NSError *)inError;
 
 - (void)API:(ZBPixnetAPI *)inAPI didFetchUserInfo:(NSDictionary *)inUserInfo;
 - (void)API:(ZBPixnetAPI *)inAPI didFailFetchingUserInfo:(NSError *)inError;
+
+- (void)API:(ZBPixnetAPI *)inAPI didFetchBlogCategories:(NSDictionary *)inBlogCategories;
+- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingBlogCategories:(NSError *)inError;
+
 
 @end
 
@@ -46,7 +52,7 @@ extern NSString *const ZBPixnetAPILogoutNotification;
 
 - (void)fetchAccountInfoWithDelegate:(id <ZBPixnetAPIDelegate>)delegate;
 - (void)fetchUserInfoWithUserID:(NSString *)userID delegate:(id <ZBPixnetAPIDelegate>)delegate;
-
+- (void)fetchBlogCategoriesWithUserID:(NSString *)userID password:(NSString *)password delegate:(id <ZBPixnetAPIDelegate>)delegate;
 
 @property (readonly, getter=isLoggedIn) BOOL loggedIn;
 @property (retain, nonatomic) UIViewController <ZBPixnetAPILoginDelegate> *currentViewController;

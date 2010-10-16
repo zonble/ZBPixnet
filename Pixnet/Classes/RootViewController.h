@@ -10,5 +10,7 @@
 }
 
 - (IBAction)login:(id)sender;
+- (IBAction)logout:(id)sender;
+- (void)doFetch;
 
 @end

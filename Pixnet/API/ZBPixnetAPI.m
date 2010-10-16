@@ -12,6 +12,7 @@ static NSString *const kAccessTokenURL = @"http://emma.pixnet.cc/oauth/access_to
 static NSString *const kPixetAPIURL = @"http://emma.pixnet.cc/";
 static NSString *const kAccount = @"account";
 static NSString *const kUserInfo = @"users/%@";
+static NSString *const kblogCategories = @"blog/categories";
 
 NSString *const ZBPixnetAPILoginNotification = @"ZBPixnetAPILoginNotification";
 NSString *const ZBPixnetAPILogoutNotification = @"ZBPixnetAPILogoutNotification";
@@ -78,6 +79,26 @@ NSString *const ZBPixnetAPILogoutNotification = @"ZBPixnetAPILogoutNotification"
 
 #pragma mark -
 
+- (NSString *)stringFromParameters:(NSDictionary *)inParameters
+{
+	if (![[inParameters allKeys] count]) {
+		return @"";
+	}
+	NSMutableString *s = [NSMutableString string];
+	for (NSString *key in [inParameters allKeys]) {
+		NSString *v = [inParameters valueForKey:key];
+		if ([v length]) {
+			if (![s length]) {
+				[s appendFormat:@"?%@=%@", key, [v stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+			}
+			else {
+				[s appendFormat:@"&%@=%@", key, [v stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+			}
+		}
+	}
+	return s;	
+}
+
 - (void)fetchAccountInfoWithDelegate:(id)delegate
 {
 	[self doFetchWithPath:kAccount method:@"GET" delegate:delegate didFinishSelector:@selector(API:didFetchAccountInfo:) didFailSelector:@selector(API:didFailFetchingAccountInfo:) HTTPBody:nil];	
@@ -87,6 +108,19 @@ NSString *const ZBPixnetAPILogoutNotification = @"ZBPixnetAPILogoutNotification"
 {
 	NSString *path = [NSString stringWithFormat:kUserInfo, [userID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	[self doFetchWithPath:path method:@"GET" delegate:delegate didFinishSelector:@selector(API:didFetchUserInfo:) didFailSelector:@selector(API:didFailFetchingUserInfo:) HTTPBody:nil];	
+}
+
+- (void)fetchBlogCategoriesWithUserID:(NSString *)userID password:(NSString *)password delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+	NSMutableDictionary *d = [NSMutableDictionary dictionary];
+	if ([userID length]) {
+		[d setValue:userID forKey:@"user"];
+	}
+	if ([password length]) {
+		[d setValue:userID forKey:@"password"];
+	}
+	NSString *path = [kblogCategories stringByAppendingString:[self stringFromParameters:d]];
+	[self doFetchWithPath:path method:@"GET" delegate:delegate didFinishSelector:@selector(API:didFetchBlogCategories:) didFailSelector:@selector(API:didFailFetchingBlogCategories:) HTTPBody:nil];	
 }
 
 

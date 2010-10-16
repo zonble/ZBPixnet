@@ -50,9 +50,18 @@
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
-	UIBarButtonItem *loginItem = [[UIBarButtonItem alloc] initWithTitle:@"Login" style:UIBarButtonItemStyleBordered target:self action:@selector(login:)];
-	self.navigationItem.rightBarButtonItem = loginItem;
-	[loginItem release];
+	
+	if ([ZBPixnetAPI sharedAPI].loggedIn) {		
+		UIBarButtonItem *logoutItem = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStyleBordered target:self action:@selector(logout:)];
+		self.navigationItem.rightBarButtonItem = logoutItem;
+		[logoutItem release];		
+		[self doFetch];
+	}
+	else {
+		UIBarButtonItem *loginItem = [[UIBarButtonItem alloc] initWithTitle:@"Login" style:UIBarButtonItemStyleBordered target:self action:@selector(login:)];
+		self.navigationItem.rightBarButtonItem = loginItem;
+		[loginItem release];		
+	}
 }
 - (void)viewWillAppear:(BOOL)animated 
 {
@@ -82,6 +91,14 @@
 {
 	[[ZBPixnetAPI sharedAPI] loginWithController:self];
 }
+- (IBAction)logout:(id)sender
+{
+	[[ZBPixnetAPI sharedAPI] logout];
+	
+	UIBarButtonItem *loginItem = [[UIBarButtonItem alloc] initWithTitle:@"Login" style:UIBarButtonItemStyleBordered target:self action:@selector(login:)];
+	self.navigationItem.rightBarButtonItem = loginItem;
+	[loginItem release];	
+}
 
 - (void)APIUserDidCancelLoggingin:(ZBPixnetAPI *)inAPI
 {
@@ -90,26 +107,48 @@
 - (void)APIDidLogin:(ZBPixnetAPI *)inAPI
 {
 	NSLog(@"%s", __PRETTY_FUNCTION__);
-	[inAPI fetchAccountInfoWithDelegate:self];
-	[inAPI fetchUserInfoWithUserID:@"far" delegate:self];
+
+	UIBarButtonItem *logoutItem = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStyleBordered target:self action:@selector(logout:)];
+	self.navigationItem.rightBarButtonItem = logoutItem;
+	[logoutItem release];	
+	
+	[self doFetch];
+}
+
+- (void)doFetch
+{
+	ZBPixnetAPI *API = [ZBPixnetAPI sharedAPI];
+	
+	[API fetchAccountInfoWithDelegate:self];
+	[API fetchUserInfoWithUserID:@"far" delegate:self];
+	[API fetchBlogCategoriesWithUserID:@"far" password:nil delegate:self];	
 }
 
 - (void)API:(ZBPixnetAPI *)inAPI didFetchAccountInfo:(NSDictionary *)accountInfo
 {
 	NSLog(@"%s %@", __PRETTY_FUNCTION__, accountInfo);
 }
-- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAccountInfo:(NSError *)error
+- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAccountInfo:(NSError *)inError
 {
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, error);
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
 }
 - (void)API:(ZBPixnetAPI *)inAPI didFetchUserInfo:(NSDictionary *)userInfo
 {
 	NSLog(@"%s %@", __PRETTY_FUNCTION__, userInfo);
 }
-- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingUserInfo:(NSError *)error
+- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingUserInfo:(NSError *)inError
 {
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, error);
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
 }
+- (void)API:(ZBPixnetAPI *)inAPI didFetchBlogCategories:(NSDictionary *)inBlogCategories
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inBlogCategories);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingBlogCategories:(NSError *)inError
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+}
+
 
 
 
