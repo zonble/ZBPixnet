@@ -15,6 +15,7 @@ static NSString *const kPixetAPIURL = @"http://emma.pixnet.cc/";
 static NSString *const kAccount = @"account";
 static NSString *const kUserInfo = @"users/%@";
 static NSString *const kblogCategories = @"blog/categories";
+static NSString *const kblogCategoriesPosition = @"blog/categories/position"; 
 
 NSString *const ZBPixnetAPILoginNotification = @"ZBPixnetAPILoginNotification";
 NSString *const ZBPixnetAPILogoutNotification = @"ZBPixnetAPILogoutNotification";
@@ -126,10 +127,67 @@ NSString *const ZBPixnetAPILogoutNotification = @"ZBPixnetAPILogoutNotification"
 	if (siteCategoryID) {
 		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"site_category_id" value:siteCategoryID] autorelease]];
 	}
-	[self doFetchWithPath:kblogCategories method:@"POST" delegate:delegate didFinishSelector:@selector(API:didFetchBlogCategories:) didFailSelector:@selector(API:didFailFetchingBlogCategories:) parameters:parameters];	
+	[self doFetchWithPath:kblogCategories method:@"POST" delegate:delegate didFinishSelector:@selector(API:didFetchBlogCategories:) didFailSelector:@selector(API:didFailCreatingBlogCategory:) parameters:parameters];	
 }
+- (void)editBlogCategoryWithID:(NSString *)categoryID categoryName:(NSString *)categoryName description:(NSString *)description type:(ZBPixnetBlogCategoryType)type visible:(BOOL)visible siteCategoryID:(NSString *)siteCategoryID delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+	NSString *path = [kblogCategories stringByAppendingFormat:@"/%@", categoryID];
+	
+	NSMutableArray *parameters = [NSMutableArray array];
+	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"name" value:categoryName] autorelease]];
+	if ([description length]) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"description" value:description] autorelease]];
+	}
+	
+	if (type == ZBPixnetBlogCategoryTypeCategory) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"type" value:@"category"] autorelease]];
+	}
+	else if (type == ZBPixnetBlogCategoryTypeFolder) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"type" value:@"folder"] autorelease]];
+	}		
+	
+	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"show_index" value:[[NSNumber numberWithBool:visible] stringValue]] autorelease]];
+	if (siteCategoryID) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"site_category_id" value:siteCategoryID] autorelease]];
+	}
+	[self doFetchWithPath:path method:@"POST" delegate:delegate didFinishSelector:@selector(API:didEditBlogCategory:) didFailSelector:@selector(API:didFailEditingBlogCategory:) parameters:parameters];	
+}
+- (void)deleteBlogCategoryWithID:(NSString *)categoryID type:(ZBPixnetBlogCategoryType)type delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+	NSString *path = [kblogCategories stringByAppendingFormat:@"/%@", categoryID];
 
-
+	NSMutableArray *parameters = [NSMutableArray array];
+	if (type == ZBPixnetBlogCategoryTypeCategory) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"type" value:@"category"] autorelease]];
+	}
+	else if (type == ZBPixnetBlogCategoryTypeFolder) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"type" value:@"folder"] autorelease]];
+	}	
+	[self doFetchWithPath:path method:@"DELETE" delegate:delegate didFinishSelector:@selector(API:didDeleteBlogCategory:) didFailSelector:@selector(API:didFailDeletingBlogCategory:) parameters:parameters];	
+}
+- (void)reoderBlogCategoriesWithIDArray:(NSArray *)categoryIDArray delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+	NSMutableString *ids = [NSMutableString string];
+	for (NSString *categoryID in categoryIDArray) {
+		if (![categoryID isKindOfClass:[NSString class]]) {
+			if ([categoryID respondsToSelector:@selector(stringValue)]) {
+				categoryID = [(id)categoryID stringValue];
+			}
+			else {
+				continue;
+			}
+		}
+		if (![categoryID length]) {
+			continue;
+		}
+		[ids appendString:categoryID];
+		if (![categoryID isEqual:[categoryIDArray lastObject]]) {
+			[ids appendString:@","];
+		}
+	}
+	NSArray *parameters = [NSArray arrayWithObjects:[[[OARequestParameter alloc] initWithName:@"ids" value:ids] autorelease], nil];	
+	[self doFetchWithPath:kblogCategoriesPosition method:@"POST" delegate:delegate didFinishSelector:@selector(API:didReorderBlogCategories:) didFailSelector:@selector(API:didFailReorderingBlogCategories:) parameters:parameters];	
+}
 
 #pragma mark -
 #pragma mark Properties
@@ -137,7 +195,7 @@ NSString *const ZBPixnetAPILogoutNotification = @"ZBPixnetAPILogoutNotification"
 - (BOOL)isLoggedIn
 {
 	if (self.accessToken) {
-		return YES;
+		return ![self.accessToken hasExpired];
 	}
 	return NO;
 }

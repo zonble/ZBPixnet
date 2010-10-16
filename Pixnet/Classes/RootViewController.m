@@ -9,7 +9,6 @@
 
 - (void)removeOutletsAndControls_RootViewController
 {
-    // remove and clean outlets and controls here
 }
 
 - (void)dealloc 
@@ -21,32 +20,12 @@
 {
 	[super viewDidUnload];
 	[self removeOutletsAndControls_RootViewController];
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
 }
-
-/*
-// The designated initializer.  Override if you create the controller
-// programmatically and want to perform customization that is not appropriate 
-// for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        // Custom initialization
-    }
-    return self;
-}
-*/
 
 #pragma mark -
 #pragma mark UIViewContoller Methods
 
-/*
-// Implement loadView to create a view hierarchy programmatically, without
-// using a nib.
-- (void)loadView 
-{
-}
-*/
+
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
@@ -121,8 +100,11 @@
 	
 //	[API fetchAccountInfoWithDelegate:self];
 //	[API fetchUserInfoWithUserID:@"far" delegate:self];
-//	[API fetchBlogCategoriesWithUserID:@"far" password:nil delegate:self];	
-	[API createBlogCategorieWithCategoryName:@"Test" description:@"Just a test" type:0 visible:YES siteCategoryID:@"0" delegate:self];
+//	[API fetchBlogCategoriesWithUserID:@"zonble" password:nil delegate:self];	
+//	[API createBlogCategorieWithCategoryName:@"Test" description:@"Just a test" type:0 visible:YES siteCategoryID:@"0" delegate:self];
+//	[API editBlogCategoryWithID:@"1461659" categoryName:@"Test Editing 2" description:@"Just another test 2" type:0 visible:YES siteCategoryID:@"0" delegate:self];
+//	[API deleteBlogCategoryWithID:@"1461659" type:0 delegate:self];
+//	[API reoderBlogCategoriesWithIDArray:[NSArray arrayWithObjects:@"16138", @"1461661", @"1461663", nil] delegate:self];
 }
 
 - (void)API:(ZBPixnetAPI *)inAPI didFetchAccountInfo:(NSDictionary *)accountInfo
@@ -153,7 +135,31 @@
 {
 	NSLog(@"%s %@", __PRETTY_FUNCTION__, inBlogCategory);
 }
-- (void)API:(ZBPixnetAPI *)inAPI didFailCreatingBlogCategoriy:(NSError *)inError
+- (void)API:(ZBPixnetAPI *)inAPI didFailCreatingBlogCategory:(NSError *)inError
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didEditBlogCategory:(NSDictionary *)inBlogCategory
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inBlogCategory);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFailEditingBlogCategory:(NSError *)inError
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didDeleteBlogCategory:(NSDictionary *)inBlogCategory
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inBlogCategory);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFailDeletingBlogCategory:(NSError *)inError
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didReorderBlogCategories:(NSDictionary *)inMessage
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inMessage);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFailReorderingBlogCategories:(NSError *)inError
 {
 	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
 }
