@@ -101,10 +101,13 @@
 //	[API fetchAccountInfoWithDelegate:self];
 //	[API fetchUserInfoWithUserID:@"far" delegate:self];
 //	[API fetchBlogCategoriesWithUserID:@"zonble" password:nil delegate:self];	
-//	[API createBlogCategorieWithCategoryName:@"Test" description:@"Just a test" type:0 visible:YES siteCategoryID:@"0" delegate:self];
-//	[API editBlogCategoryWithID:@"1461659" categoryName:@"Test Editing 2" description:@"Just another test 2" type:0 visible:YES siteCategoryID:@"0" delegate:self];
+//	[API createBlogCategorieWithCategoryName:@"Test" description:@"Just a test" type:0 visible:YES siteCategory:@"0" delegate:self];
+//	[API editBlogCategoryWithID:@"1461659" categoryName:@"Test Editing 2" description:@"Just another test 2" type:0 visible:YES siteCategory:@"0" delegate:self];
 //	[API deleteBlogCategoryWithID:@"1461659" type:0 delegate:self];
 //	[API reoderBlogCategoriesWithIDArray:[NSArray arrayWithObjects:@"16138", @"1461661", @"1461663", nil] delegate:self];
+//	[API fetchArticlesOfUser:@"zonble" password:nil page:1 articlesPerPage:100 category:nil hideAuthorInfo:NO delegate:self];
+//	[API fetchArticleWithID:@"25576745" user:@"zonble" password:nil articlePassword:nil delegate:self];
+	[API createArticleWithTitle:@"HI" body:@"Hallo?!" status:ZBPixnetBlogArticleStatusPublished publishDate:[NSDate date] category:nil siteCategory:nil useNL2BR:NO commentPermission:ZBPixnetCommentPermissionOpen hideComments:NO trackbackURLs:nil articlePassword:nil passwordHint:nil friendGroupIDs:nil notifyTwitter:NO notifyFacebook:NO delegate:self];
 }
 
 - (void)API:(ZBPixnetAPI *)inAPI didFetchAccountInfo:(NSDictionary *)accountInfo
@@ -160,6 +163,30 @@
 	NSLog(@"%s %@", __PRETTY_FUNCTION__, inMessage);
 }
 - (void)API:(ZBPixnetAPI *)inAPI didFailReorderingBlogCategories:(NSError *)inError
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFetchArticles:(NSDictionary *)inArticles
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inArticles);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingArticles:(NSError *)inError
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFetchArticle:(NSDictionary *)inArticle
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inArticle);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingArticle:(NSError *)inError
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didCreateArticle:(NSDictionary *)inArticle
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inArticle);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFailCreatingArticle:(NSError *)inError
 {
 	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
 }
