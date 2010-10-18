@@ -129,10 +129,21 @@ static NSString *const kAccessTokenURL = @"http://emma.pixnet.cc/oauth/access_to
 {
 	NSDictionary *userInfo = ticket.userInfo;
 	id <ZBPixnetAPIDelegate> delegate = [userInfo valueForKey:@"delegate"];
-	SEL didFinishSelector = NSSelectorFromString([userInfo valueForKey:@"didFinishSelector"]);
+
 	NSString *s = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
 	NSDictionary *d = [NSDictionary dictionaryWithJSONString:s];
-	
+	if ([[d valueForKey:@"error"] boolValue]) {
+		NSDictionary *errorInfo = [NSDictionary dictionaryWithObjectsAndKeys:[d valueForKey:@"message"], NSLocalizedDescriptionKey, nil];
+		NSError *error = [NSError errorWithDomain:@"ZBPixnetErrorDomain" code:0 userInfo:errorInfo];
+		SEL didFailSelector = NSSelectorFromString([userInfo valueForKey:@"didFailSelector"]);
+		NSLog(@"didFailSelector:%@", [userInfo valueForKey:@"didFailSelector"]);
+		if ([delegate respondsToSelector:didFailSelector]) {
+			[delegate performSelector:didFailSelector withObject:self withObject:error];
+		}		
+		return;
+	}
+
+	SEL didFinishSelector = NSSelectorFromString([userInfo valueForKey:@"didFinishSelector"]);
 	if ([delegate respondsToSelector:didFinishSelector]) {
 		[delegate performSelector:didFinishSelector withObject:self withObject:d];
 	}

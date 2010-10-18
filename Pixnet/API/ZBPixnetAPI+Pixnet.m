@@ -29,7 +29,7 @@ static NSString *const kPixnetBlogComments = @"blog/comments";
 
 #pragma mark Blog
 
-- (void)fetchBlogCategoriesWithUserID:(NSString *)userID password:(NSString *)password delegate:(id <ZBPixnetAPIDelegate>)delegate
+- (void)fetchBlogCategoriesOfUser:(NSString *)userID password:(NSString *)password delegate:(id <ZBPixnetAPIDelegate>)delegate
 {
 	NSMutableArray *parameters = [NSMutableArray array];
 	if ([userID length]) {
@@ -62,7 +62,7 @@ static NSString *const kPixnetBlogComments = @"blog/comments";
 	}
 	[self doFetchWithPath:kPixnetBlogCategories method:@"POST" delegate:delegate didFinishSelector:@selector(API:didFetchBlogCategories:) didFailSelector:@selector(API:didFailCreatingBlogCategory:) parameters:parameters];	
 }
-- (void)editBlogCategoryWithID:(NSString *)categoryID categoryName:(NSString *)categoryName description:(NSString *)description type:(ZBPixnetBlogCategoryType)type visible:(BOOL)visible siteCategory:(NSString *)siteCategoryID delegate:(id <ZBPixnetAPIDelegate>)delegate
+- (void)editBlogCategory:(NSString *)categoryID categoryName:(NSString *)categoryName description:(NSString *)description type:(ZBPixnetBlogCategoryType)type visible:(BOOL)visible siteCategory:(NSString *)siteCategoryID delegate:(id <ZBPixnetAPIDelegate>)delegate
 {
 	NSString *path = [kPixnetBlogCategories stringByAppendingFormat:@"/%@", categoryID];
 	
@@ -85,7 +85,7 @@ static NSString *const kPixnetBlogComments = @"blog/comments";
 	}
 	[self doFetchWithPath:path method:@"POST" delegate:delegate didFinishSelector:@selector(API:didEditBlogCategory:) didFailSelector:@selector(API:didFailEditingBlogCategory:) parameters:parameters];	
 }
-- (void)deleteBlogCategoryWithID:(NSString *)categoryID type:(ZBPixnetBlogCategoryType)type delegate:(id <ZBPixnetAPIDelegate>)delegate
+- (void)deleteBlogCategory:(NSString *)categoryID type:(ZBPixnetBlogCategoryType)type delegate:(id <ZBPixnetAPIDelegate>)delegate
 {
 	NSString *path = [kPixnetBlogCategories stringByAppendingFormat:@"/%@", categoryID];
 	
@@ -157,7 +157,7 @@ static NSString *const kPixnetBlogComments = @"blog/comments";
 	}
 	[self doFetchWithPath:kPixnetBlogArticles method:@"GET" delegate:delegate didFinishSelector:@selector(API:didFetchArticles:) didFailSelector:@selector(API:didFailFetchingArticles:) parameters:parameters];		
 }
-- (void)fetchArticleWithID:(NSString *)articleID user:(NSString *)userID password:(NSString *)password articlePassword:(NSString *)articlePassword delegate:(id <ZBPixnetAPIDelegate>)delegate
+- (void)fetchArticle:(NSString *)articleID user:(NSString *)userID password:(NSString *)password articlePassword:(NSString *)articlePassword delegate:(id <ZBPixnetAPIDelegate>)delegate
 {
 	if (articleID) {
 		if (![articleID isKindOfClass:[NSString class]]) {
@@ -260,7 +260,7 @@ static NSString *const kPixnetBlogComments = @"blog/comments";
 	NSArray *parameters = [self _articleParametersWithTitle:title body:body status:status publishDate:publishDate category:categoryID siteCategory:siteCategoryID useNL2BR:useNL2BR commentPermission:commentPermission hideComments:hideComments trackbackURLs:trackbackURLs articlePassword:articlePassword passwordHint:hint friendGroupIDs:friendGroupIDs notifyTwitter:notifyTwitter notifyFacebook:notifyFacebook];	
 	[self doFetchWithPath:kPixnetBlogArticles method:@"POST" delegate:delegate didFinishSelector:@selector(API:didCreateArticle:) didFailSelector:@selector(API:didFailCreatingArticle:) parameters:parameters];
 }
-- (void)editArticleWithID:(NSString *)articleID title:(NSString *)title body:(NSString *)body status:(ZBPixnetBlogArticleStatus)status publishDate:(NSDate *)publishDate category:(NSString *)categoryID siteCategory:(NSString *)siteCategoryID useNL2BR:(BOOL)useNL2BR commentPermission:(ZBPixnetCommentPermission)commentPermission hideComments:(BOOL)hideComments trackbackURLs:(NSArray *)trackbackURLs articlePassword:(NSString *)articlePassword passwordHint:(NSString *)hint friendGroupIDs:(NSArray *)friendGroupIDs notifyTwitter:(BOOL)notifyTwitter notifyFacebook:(BOOL)notifyFacebook delegate:(id <ZBPixnetAPIDelegate>)delegate
+- (void)editArticle:(NSString *)articleID title:(NSString *)title body:(NSString *)body status:(ZBPixnetBlogArticleStatus)status publishDate:(NSDate *)publishDate category:(NSString *)categoryID siteCategory:(NSString *)siteCategoryID useNL2BR:(BOOL)useNL2BR commentPermission:(ZBPixnetCommentPermission)commentPermission hideComments:(BOOL)hideComments trackbackURLs:(NSArray *)trackbackURLs articlePassword:(NSString *)articlePassword passwordHint:(NSString *)hint friendGroupIDs:(NSArray *)friendGroupIDs notifyTwitter:(BOOL)notifyTwitter notifyFacebook:(BOOL)notifyFacebook delegate:(id <ZBPixnetAPIDelegate>)delegate
 {
 	if (![articleID isKindOfClass:[NSString class]]) {
 		if ([articleID respondsToSelector:@selector(stringValue)]) {
@@ -271,7 +271,7 @@ static NSString *const kPixnetBlogComments = @"blog/comments";
 	NSArray *parameters = [self _articleParametersWithTitle:title body:body status:status publishDate:publishDate category:categoryID siteCategory:siteCategoryID useNL2BR:useNL2BR commentPermission:commentPermission hideComments:hideComments trackbackURLs:trackbackURLs articlePassword:articlePassword passwordHint:hint friendGroupIDs:friendGroupIDs notifyTwitter:notifyTwitter notifyFacebook:notifyFacebook];	
 	[self doFetchWithPath:path method:@"POST" delegate:delegate didFinishSelector:@selector(API:didEditArticle:) didFailSelector:@selector(API:didFailEditingArticle:) parameters:parameters];
 }
-- (void)deleteArticleWithID:(NSString *)articleID delegate:(id <ZBPixnetAPIDelegate>)delegate
+- (void)deleteArticle:(NSString *)articleID delegate:(id <ZBPixnetAPIDelegate>)delegate
 {
 	if (![articleID isKindOfClass:[NSString class]]) {
 		if ([articleID respondsToSelector:@selector(stringValue)]) {
@@ -349,6 +349,114 @@ static NSString *const kPixnetBlogComments = @"blog/comments";
 		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"article_password" value:articlePassword] autorelease]];
 	}	
 	[self doFetchWithPath:kPixnetBlogComments method:@"POST" delegate:delegate didFinishSelector:@selector(API:didCreateComment:) didFailSelector:@selector(API:didFailCreatingComment:) parameters:parameters];
+}
+- (void)fetchBlogComment:(NSString *)commentID delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+	if (commentID) {
+		if (![commentID isKindOfClass:[NSString class]]) {
+			if ([commentID respondsToSelector:@selector(stringValue)]) {
+				commentID = [(id)commentID stringValue];
+			}
+			else {
+				commentID = nil;
+			}
+		}
+	}
+	NSString *path = [kPixnetBlogComments stringByAppendingFormat:@"/%@", [commentID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	[self doFetchWithPath:path method:@"GET" delegate:delegate didFinishSelector:@selector(API:didFetchComment:) didFailSelector:@selector(API:didFailFetchingComment:) parameters:nil];	
+}
+- (void)replyBlogComment:(NSString *)commentID body:(NSString *)body delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+	if (commentID) {
+		if (![commentID isKindOfClass:[NSString class]]) {
+			if ([commentID respondsToSelector:@selector(stringValue)]) {
+				commentID = [(id)commentID stringValue];
+			}
+			else {
+				commentID = nil;
+			}
+		}
+	}	
+	NSString *path = [kPixnetBlogComments stringByAppendingFormat:@"/%@/reply", [commentID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	NSMutableArray *parameters = [NSMutableArray array];
+	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"body" value:body] autorelease]];
+	[self doFetchWithPath:path method:@"POST" delegate:delegate didFinishSelector:@selector(API:didReplyComment:) didFailSelector:@selector(API:didFailReplyingComment:) parameters:parameters];	
+}
+- (void)makeCommentPublic:(NSString *)commentID delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+	if (commentID) {
+		if (![commentID isKindOfClass:[NSString class]]) {
+			if ([commentID respondsToSelector:@selector(stringValue)]) {
+				commentID = [(id)commentID stringValue];
+			}
+			else {
+				commentID = nil;
+			}
+		}
+	}
+	NSString *path = [kPixnetBlogComments stringByAppendingFormat:@"/%@/open", [commentID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	[self doFetchWithPath:path method:@"POST" delegate:delegate didFinishSelector:@selector(API:didMakeCommentPublic:) didFailSelector:@selector(API:didFailMakingCommentPublic:) parameters:nil];	
+}
+- (void)makeCommentPrivate:(NSString *)commentID delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+	if (commentID) {
+		if (![commentID isKindOfClass:[NSString class]]) {
+			if ([commentID respondsToSelector:@selector(stringValue)]) {
+				commentID = [(id)commentID stringValue];
+			}
+			else {
+				commentID = nil;
+			}
+		}
+	}
+	NSString *path = [kPixnetBlogComments stringByAppendingFormat:@"/%@/close", [commentID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	[self doFetchWithPath:path method:@"POST" delegate:delegate didFinishSelector:@selector(API:didMakeCommentPrivate:) didFailSelector:@selector(API:didFailMakingCommentPrivate:) parameters:nil];
+}
+- (void)markCommentAsSpam:(NSString *)commentID delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+	if (commentID) {
+		if (![commentID isKindOfClass:[NSString class]]) {
+			if ([commentID respondsToSelector:@selector(stringValue)]) {
+				commentID = [(id)commentID stringValue];
+			}
+			else {
+				commentID = nil;
+			}
+		}
+	}
+	NSString *path = [kPixnetBlogComments stringByAppendingFormat:@"/%@/mark_spam", [commentID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	[self doFetchWithPath:path method:@"POST" delegate:delegate didFinishSelector:@selector(API:didMarkCommentAsSpam:) didFailSelector:@selector(API:didFailMarkingCommentAsSpam:) parameters:nil];
+}
+- (void)unmarkCommentAsSpam:(NSString *)commentID delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+	if (commentID) {
+		if (![commentID isKindOfClass:[NSString class]]) {
+			if ([commentID respondsToSelector:@selector(stringValue)]) {
+				commentID = [(id)commentID stringValue];
+			}
+			else {
+				commentID = nil;
+			}
+		}
+	}
+	NSString *path = [kPixnetBlogComments stringByAppendingFormat:@"/%@/mark_ham", [commentID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	[self doFetchWithPath:path method:@"POST" delegate:delegate didFinishSelector:@selector(API:didUnmarkCommentAsSpam:) didFailSelector:@selector(API:didFailUnmarkingCommentAsSpam:) parameters:nil];
+}
+- (void)deleteComment:(NSString *)commentID delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+	if (commentID) {
+		if (![commentID isKindOfClass:[NSString class]]) {
+			if ([commentID respondsToSelector:@selector(stringValue)]) {
+				commentID = [(id)commentID stringValue];
+			}
+			else {
+				commentID = nil;
+			}
+		}
+	}
+	NSString *path = [kPixnetBlogComments stringByAppendingFormat:@"/%@", [commentID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	[self doFetchWithPath:path method:@"DELETE" delegate:delegate didFinishSelector:@selector(API:didDeleteComment:) didFailSelector:@selector(API:didFailDeletingComment:) parameters:nil];
+	
 }
 
 
