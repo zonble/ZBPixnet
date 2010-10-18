@@ -16,6 +16,7 @@ static NSString *const kPixnetBlogComments = @"blog/comments";
 static NSString *const kPixnetBlogSiteCategories = @"blog/site_categories";
 static NSString *const kPixnetAlbumSetFolders = @"album/setfolders";
 static NSString *const kPixnetAlbumSetFoldersPosition = @"album/setfolders/position";
+static NSString *const kPixnetAlbumSets = @"album/sets";
 
 @implementation ZBPixnetAPI(Pixnet)
 
@@ -512,8 +513,29 @@ static NSString *const kPixnetAlbumSetFoldersPosition = @"album/setfolders/posit
 		}
 	}
 	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"ids" value:s] autorelease]];
-	[self doFetchWithPath:kPixnetAlbumSetFoldersPosition method:@"POST" delegate:delegate didFinishSelector:@selector(API:didReorderAlbumSetFolders:) didFailSelector:@selector(API:didFailReorderingAlbumSetFolders:) parameters:parameters];		
+	[self doFetchWithPath:kPixnetAlbumSetFoldersPosition method:@"POST" delegate:delegate didFinishSelector:@selector(API:didReorderAlbumSetFolders:) didFailSelector:@selector(API:didFailReorderingAlbumSetFolders:) parameters:parameters];
+}
+
+#pragma mark -
+#pragma mark Album Sets
+
+- (void)fetchAlbumSetsOfUser:(NSString *)userID parent:(NSString *)parentID hideUserInfo:(BOOL)hideUserInfo page:(NSUInteger)page albumSetsPerPage:(NSUInteger)perPage delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+	NSMutableArray *parameters = [NSMutableArray array];
+	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"user" value:userID] autorelease]];
+	if (hideUserInfo) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"trim_user" value:@"1"] autorelease]];
+	}
+	if (page > 1) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"page" value:[[NSNumber numberWithUnsignedInt:page] stringValue]] autorelease]];
+	}
+	if (perPage && perPage != 100) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"per_page" value:[[NSNumber numberWithUnsignedInt:perPage] stringValue]] autorelease]];
+	}	
+	[self doFetchWithPath:kPixnetAlbumSets method:@"GET" delegate:delegate didFinishSelector:@selector(API:didFetchAlbumSets:) didFailSelector:@selector(API:didFailFetchingAlbumSets:) parameters:parameters];
+
 
 }
+
 
 @end

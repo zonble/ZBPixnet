@@ -125,7 +125,8 @@
 	
 //	[API fetchBlogSiteCategoriesIncludingGroups:YES containThumbnails:YES delegate:self];
 //	[API fetchAlbumSetFoldersOfUser:nil hideUserInfo:NO page:0 albumSetsPerPage:0 delegate:self];
-	[API reorderAlbumSetFoldersWithIDArray:[NSArray arrayWithObjects: @"943632", @"943634",@"686752",@"14289459", nil] delegate:self];
+//	[API reorderAlbumSetFoldersWithIDArray:[NSArray arrayWithObjects: @"943632", @"943634",@"686752",@"14289459", nil] delegate:self];
+	[API fetchAlbumSetsOfUser:nil parent:nil hideUserInfo:NO page:1 albumSetsPerPage:100 delegate:self];
 }
 
 - (void)API:(ZBPixnetAPI *)inAPI didFetchAccountInfo:(NSDictionary *)accountInfo
@@ -312,7 +313,14 @@
 {
 	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
 }
-
+- (void)API:(ZBPixnetAPI *)inAPI didFetchAlbumSets:(NSDictionary *)inAlbumSets
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumSets);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAlbumSets:(NSError *)inError
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+}
 
 
 
