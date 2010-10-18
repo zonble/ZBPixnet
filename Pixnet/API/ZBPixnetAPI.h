@@ -9,30 +9,6 @@ extern NSString *const ZBPixnetAPILoginNotification;
 extern NSString *const ZBPixnetAPILogoutNotification;
 extern NSString *const kPixetAPIURL;
 
-typedef enum {
-	ZBPixnetBlogCategoryTypeCategory = 0,
-	ZBPixnetBlogCategoryTypeFolder = 1
-} ZBPixnetBlogCategoryType;
-
-typedef enum {
-	ZBPixnetBlogArticleStatusDeleted = 0,
-	ZBPixnetBlogArticleStatusDraft = 1,
-	ZBPixnetBlogArticleStatusPublished = 2,
-	ZBPixnetBlogArticleStatusRequirePassword = 3,
-	ZBPixnetBlogArticleStatusHidden = 4,
-	ZBPixnetBlogArticleStatusFriendsOnly = 5,
-	ZBPixnetBlogArticleStatusCoauthor = 7	
-} ZBPixnetBlogArticleStatus;
-
-typedef enum {
-	ZBPixnetCommentPermissionDefault = -1,
-	ZBPixnetCommentPermissionClosed = 0,
-	ZBPixnetCommentPermissionOpen = 1,
-	ZBPixnetCommentPermissionMembersOnly = 2,
-	ZBPixnetCommentPermissionFriendsOnly = 3
-} ZBPixnetCommentPermission;
-
-
 #pragma mark -
 
 @protocol ZBPixnetAPILoginDelegate <NSObject>
@@ -43,8 +19,6 @@ typedef enum {
 - (void)API:(ZBPixnetAPI *)inAPI didFailFetchingRequestToken:(NSError *)inError;
 - (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAccessToken:(NSError *)inError;
 @end
-
-
 
 #pragma mark -
 

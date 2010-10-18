@@ -5,6 +5,40 @@ extern NSString *const ZBPixnetCommentFilterWhisper;
 extern NSString *const ZBPixnetCommentFilterNoSpam;
 extern NSString *const ZBPixnetCommentFilterNoReply;
 
+typedef enum {
+	ZBPixnetBlogCategoryTypeCategory = 0,
+	ZBPixnetBlogCategoryTypeFolder = 1
+} ZBPixnetBlogCategoryType;
+
+typedef enum {
+	ZBPixnetBlogArticleStatusDeleted = 0,
+	ZBPixnetBlogArticleStatusDraft = 1,
+	ZBPixnetBlogArticleStatusPublished = 2,
+	ZBPixnetBlogArticleStatusRequirePassword = 3,
+	ZBPixnetBlogArticleStatusHidden = 4,
+	ZBPixnetBlogArticleStatusFriendsOnly = 5,
+	ZBPixnetBlogArticleStatusCoauthor = 7	
+} ZBPixnetBlogArticleStatus;
+
+typedef enum {
+	ZBPixnetCommentPermissionDefault = -1,
+	ZBPixnetCommentPermissionClosed = 0,
+	ZBPixnetCommentPermissionOpen = 1,
+	ZBPixnetCommentPermissionMembersOnly = 2,
+	ZBPixnetCommentPermissionFriendsOnly = 3
+} ZBPixnetCommentPermission;
+
+typedef enum {
+	ZBPixnetAlbumSetPermissionPublic = 0,
+	ZBPixnetAlbumSetPermissionFriendsOnly = 1,
+	ZBPixnetAlbumSetPermissionClubsOnly = 2,
+	ZBPixnetAlbumSetPermissionRequirePassword = 3,
+	ZBPixnetAlbumSetPermissionHidden = 4,
+	ZBPixnetAlbumSetPermissionFriendGroupsOnly = 5
+} ZBPixnetAlbumSetPermission;
+
+#pragma mark -
+
 @protocol ZBPixnetAPIDelegate <NSObject>
 
 @optional
@@ -100,6 +134,12 @@ extern NSString *const ZBPixnetCommentFilterNoReply;
 - (void)API:(ZBPixnetAPI *)inAPI didFetchAlbumSets:(NSDictionary *)inAlbumSets;
 - (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAlbumSets:(NSError *)inError;
 
+- (void)API:(ZBPixnetAPI *)inAPI didCreateAlbumSet:(NSDictionary *)inAlbumSet;
+- (void)API:(ZBPixnetAPI *)inAPI didFailCreatingAlbumSet:(NSError *)inError;
+
+- (void)API:(ZBPixnetAPI *)inAPI didEditAlbumSet:(NSDictionary *)inAlbumSet;
+- (void)API:(ZBPixnetAPI *)inAPI didFailEditingAlbumSet:(NSError *)inError;
+
 
 @end
 
@@ -154,6 +194,8 @@ extern NSString *const ZBPixnetCommentFilterNoReply;
 #pragma mark Album Sets
 
 - (void)fetchAlbumSetsOfUser:(NSString *)userID parent:(NSString *)parentID hideUserInfo:(BOOL)hideUserInfo page:(NSUInteger)page albumSetsPerPage:(NSUInteger)perPage delegate:(id <ZBPixnetAPIDelegate>)delegate;
+- (void)createAlbumSetWithTitle:(NSString *)title description:(NSString *)description permission:(ZBPixnetAlbumSetPermission)permission category:(NSString *)categoryID disableRightClick:(BOOL)disableRightClick useCCLicense:(BOOL)useCCLicense commentPermission:(ZBPixnetCommentPermission)commentPermission password:(NSString *)password passwordHint:(NSString *)hint friendGroupIDs:(NSArray *)friendGroupIDs allowCommercialUse:(BOOL)allowCommercialUse allowDerivation:(BOOL)allowDerivation parent:(NSString *)parentID delegate:(id <ZBPixnetAPIDelegate>)delegate;
+- (void)editAlbumSet:(NSString *)albumSetID title:(NSString *)title description:(NSString *)description permission:(ZBPixnetAlbumSetPermission)permission category:(NSString *)categoryID disableRightClick:(BOOL)disableRightClick useCCLicense:(BOOL)useCCLicense commentPermission:(ZBPixnetCommentPermission)commentPermission password:(NSString *)password passwordHint:(NSString *)hint friendGroupIDs:(NSArray *)friendGroupIDs allowCommercialUse:(BOOL)allowCommercialUse allowDerivation:(BOOL)allowDerivation parent:(NSString *)parentID delegate:(id <ZBPixnetAPIDelegate>)delegate;
 
 
 @end

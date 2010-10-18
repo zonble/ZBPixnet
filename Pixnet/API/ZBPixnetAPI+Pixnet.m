@@ -533,9 +533,78 @@ static NSString *const kPixnetAlbumSets = @"album/sets";
 		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"per_page" value:[[NSNumber numberWithUnsignedInt:perPage] stringValue]] autorelease]];
 	}	
 	[self doFetchWithPath:kPixnetAlbumSets method:@"GET" delegate:delegate didFinishSelector:@selector(API:didFetchAlbumSets:) didFailSelector:@selector(API:didFailFetchingAlbumSets:) parameters:parameters];
-
-
 }
+- (NSArray *)_albumSetParametersWithTitle:(NSString *)title description:(NSString *)description permission:(ZBPixnetAlbumSetPermission)permission category:(NSString *)categoryID disableRightClick:(BOOL)disableRightClick useCCLicense:(BOOL)useCCLicense commentPermission:(ZBPixnetCommentPermission)commentPermission password:(NSString *)password passwordHint:(NSString *)hint friendGroupIDs:(NSArray *)friendGroupIDs allowCommercialUse:(BOOL)allowCommercialUse allowDerivation:(BOOL)allowDerivation parent:(NSString *)parentID
+{
+	NSMutableArray *parameters = [NSMutableArray array];
+	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"title" value:title] autorelease]];
+	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"description" value:description] autorelease]];
+	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"permission" value:[[NSNumber numberWithUnsignedInt:permission] stringValue]] autorelease]];
+	if ([categoryID length] && [categoryID integerValue]) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"category_id" value:categoryID] autorelease]];		
+	}
+	if (disableRightClick) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"is_lockright" value:@"1"] autorelease]];
+	}
+	if (useCCLicense) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"allow_cc" value:@"1"] autorelease]];
+	}
+	if (allowCommercialUse) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"allow_commercial_usr" value:@"1"] autorelease]];
+	}
+	if (allowDerivation) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"allow_derivation" value:@"1"] autorelease]];
+	}
+	if ([parentID length]) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"parent_id" value:parentID] autorelease]];
+	}
+	if (commentPermission > ZBPixnetCommentPermissionDefault) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"cancomment" value:[[NSNumber numberWithUnsignedInteger:commentPermission] stringValue]] autorelease]];
+	}	
+	
+	if (permission) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"permission" value:[[NSNumber numberWithUnsignedInteger:permission] stringValue]] autorelease]];
+		if (permission == ZBPixnetAlbumSetPermissionRequirePassword) {
+			[parameters addObject:[[[OARequestParameter alloc] initWithName:@"password" value:password] autorelease]];
+			[parameters addObject:[[[OARequestParameter alloc] initWithName:@"password_hint" value:hint] autorelease]];
+		}
+		else if (permission == ZBPixnetAlbumSetPermissionFriendGroupsOnly) {
+			NSMutableString *ids = [NSMutableString string];
+			for (NSString *friendGroupID in friendGroupIDs) {
+				if (![friendGroupID isKindOfClass:[NSString class]]) {
+					if ([friendGroupID respondsToSelector:@selector(stringValue)]) {
+						friendGroupID = [(id)friendGroupID stringValue];
+					}
+					else {
+						continue;
+					}
+				}
+				if (![friendGroupID length]) {
+					continue;
+				}
+				[ids appendString:categoryID];
+				if (![friendGroupID isEqual:[friendGroupIDs lastObject]]) {
+					[ids appendString:@","];
+				}
+			}
+			[parameters addObject:[[[OARequestParameter alloc] initWithName:@"friend_group_ids" value:ids] autorelease]];
+		}
+	}
+	return parameters;
+}
+
+- (void)createAlbumSetWithTitle:(NSString *)title description:(NSString *)description permission:(ZBPixnetAlbumSetPermission)permission category:(NSString *)categoryID disableRightClick:(BOOL)disableRightClick useCCLicense:(BOOL)useCCLicense commentPermission:(ZBPixnetCommentPermission)commentPermission password:(NSString *)password passwordHint:(NSString *)hint friendGroupIDs:(NSArray *)friendGroupIDs allowCommercialUse:(BOOL)allowCommercialUse allowDerivation:(BOOL)allowDerivation parent:(NSString *)parentID delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+	NSArray *parameters = [self _albumSetParametersWithTitle:title description:description permission:permission category:categoryID disableRightClick:disableRightClick useCCLicense:useCCLicense commentPermission:commentPermission password:password passwordHint:hint friendGroupIDs:friendGroupIDs allowCommercialUse:allowDerivation allowDerivation:allowDerivation parent:parentID];	
+	[self doFetchWithPath:kPixnetAlbumSets method:@"POST" delegate:delegate didFinishSelector:@selector(API:didCreateAlbumSet:) didFailSelector:@selector(API:didFailCreatingAlbumSet:) parameters:parameters];
+}
+- (void)editAlbumSet:(NSString *)albumSetID title:(NSString *)title description:(NSString *)description permission:(ZBPixnetAlbumSetPermission)permission category:(NSString *)categoryID disableRightClick:(BOOL)disableRightClick useCCLicense:(BOOL)useCCLicense commentPermission:(ZBPixnetCommentPermission)commentPermission password:(NSString *)password passwordHint:(NSString *)hint friendGroupIDs:(NSArray *)friendGroupIDs allowCommercialUse:(BOOL)allowCommercialUse allowDerivation:(BOOL)allowDerivation parent:(NSString *)parentID delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+	NSString *path = [kPixnetAlbumSets stringByAppendingFormat:@"/%@", albumSetID];
+	NSArray *parameters = [self _albumSetParametersWithTitle:title description:description permission:permission category:categoryID disableRightClick:disableRightClick useCCLicense:useCCLicense commentPermission:commentPermission password:password passwordHint:hint friendGroupIDs:friendGroupIDs allowCommercialUse:allowDerivation allowDerivation:allowDerivation parent:parentID];	
+	[self doFetchWithPath:path method:@"POST" delegate:delegate didFinishSelector:@selector(API:didEditAlbumSet:) didFailSelector:@selector(API:didFailEditingAlbumSet:) parameters:parameters];
+}
+
 
 
 @end
