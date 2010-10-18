@@ -158,7 +158,7 @@ typedef enum {
 - (void)API:(ZBPixnetAPI *)inAPI didFailCreatingAlbumFolder:(NSError *)inError;
 
 - (void)API:(ZBPixnetAPI *)inAPI didEditAlbumFolder:(NSDictionary *)inAlbumFolder;
-- (void)API:(ZBPixnetAPI *)inAPI didFailEditingAlbumSet:(NSError *)inError;
+- (void)API:(ZBPixnetAPI *)inAPI didFailEditingAlbumFolder:(NSError *)inError;
 
 - (void)API:(ZBPixnetAPI *)inAPI didDeleteAlbumFolder:(NSDictionary *)inMessage;
 - (void)API:(ZBPixnetAPI *)inAPI didFailDeletingAlbumFolder:(NSError *)inError;
@@ -224,6 +224,11 @@ typedef enum {
 #pragma mark Album Folders
 
 - (void)fetchAlbumFolderOfUser:(NSString *)userID hideUserInfo:(BOOL)hideUserInfo page:(NSUInteger)page albumFoldersPerPage:(NSUInteger)perPage delegate:(id <ZBPixnetAPIDelegate>)delegate;
-- (void)fetchAlbumFolder:(NSString *)albumFolderID albumOwner:(NSString *)userID page:(NSUInteger)page albumFoldersPerPage:(NSUInteger)perPage delegate:(id <ZBPixnetAPIDelegate>)delegate;
+- (void)fetchAlbumFolder:(NSString *)albumFolderID albumOwner:(NSString *)userID delegate:(id <ZBPixnetAPIDelegate>)delegate;
+- (void)createAlbumFolderWithTitle:(NSString *)title desciption:(NSString *)desciption delegate:(id <ZBPixnetAPIDelegate>)delegate;
+- (void)editAlbumFolder:(NSString *)albumFolderID title:(NSString *)title desciption:(NSString *)desciption delegate:(id <ZBPixnetAPIDelegate>)delegate;
+- (void)deleteAlbumFolder:(NSString *)albumFolderID delegate:(id <ZBPixnetAPIDelegate>)delegate;
+
+
 
 @end
