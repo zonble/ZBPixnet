@@ -5,6 +5,10 @@ extern NSString *const ZBPixnetCommentFilterWhisper;
 extern NSString *const ZBPixnetCommentFilterNoSpam;
 extern NSString *const ZBPixnetCommentFilterNoReply;
 
+extern NSString *const ZBPixnetVideoThumbnailPositionBeginning;
+extern NSString *const ZBPixnetVideoThumbnailPositionMiddle;
+extern NSString *const ZBPixnetVideoThumbnailPositionEnd;
+
 typedef enum {
 	ZBPixnetBlogCategoryTypeCategory = 0,
 	ZBPixnetBlogCategoryTypeFolder = 1
@@ -163,6 +167,26 @@ typedef enum {
 - (void)API:(ZBPixnetAPI *)inAPI didDeleteAlbumFolder:(NSDictionary *)inMessage;
 - (void)API:(ZBPixnetAPI *)inAPI didFailDeletingAlbumFolder:(NSError *)inError;
 
+#pragma mark Album Elements (Media Files)
+
+- (void)API:(ZBPixnetAPI *)inAPI didFetchAlbumElements:(NSDictionary *)inAlbumElements;
+- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAlbumElements:(NSError *)inError;
+
+- (void)API:(ZBPixnetAPI *)inAPI didFetchAlbumElement:(NSDictionary *)inAlbumElement;
+- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAlbumElement:(NSError *)inError;
+
+- (void)API:(ZBPixnetAPI *)inAPI didUploadAlbumElement:(NSDictionary *)inAlbumElement;
+- (void)API:(ZBPixnetAPI *)inAPI didFailUploadingAlbumElement:(NSError *)inError;
+
+- (void)API:(ZBPixnetAPI *)inAPI didEditAlbumElement:(NSDictionary *)inAlbumElement;
+- (void)API:(ZBPixnetAPI *)inAPI didFailEditingAlbumElement:(NSError *)inError;
+
+- (void)API:(ZBPixnetAPI *)inAPI didDeleteAlbumElement:(NSDictionary *)inAlbumElement;
+- (void)API:(ZBPixnetAPI *)inAPI didFailDeletingAlbumElement:(NSError *)inError;
+
+- (void)API:(ZBPixnetAPI *)inAPI didReorderAlbumElement:(NSDictionary *)inAlbumElements;
+- (void)API:(ZBPixnetAPI *)inAPI didFailReorderingAlbumElement:(NSError *)inError;
+
 @end
 
 #pragma mark -
@@ -218,7 +242,7 @@ typedef enum {
 - (void)fetchAlbumSetsOfUser:(NSString *)userID parent:(NSString *)parentID hideUserInfo:(BOOL)hideUserInfo page:(NSUInteger)page albumSetsPerPage:(NSUInteger)perPage delegate:(id <ZBPixnetAPIDelegate>)delegate;
 - (void)createAlbumSetWithTitle:(NSString *)title description:(NSString *)description permission:(ZBPixnetAlbumSetPermission)permission category:(NSString *)categoryID disableRightClick:(BOOL)disableRightClick useCCLicense:(BOOL)useCCLicense commentPermission:(ZBPixnetCommentPermission)commentPermission password:(NSString *)password passwordHint:(NSString *)hint friendGroupIDs:(NSArray *)friendGroupIDs allowCommercialUse:(BOOL)allowCommercialUse allowDerivation:(BOOL)allowDerivation parent:(NSString *)parentID delegate:(id <ZBPixnetAPIDelegate>)delegate;
 - (void)editAlbumSet:(NSString *)albumSetID title:(NSString *)title description:(NSString *)description permission:(ZBPixnetAlbumSetPermission)permission category:(NSString *)categoryID disableRightClick:(BOOL)disableRightClick useCCLicense:(BOOL)useCCLicense commentPermission:(ZBPixnetCommentPermission)commentPermission password:(NSString *)password passwordHint:(NSString *)hint friendGroupIDs:(NSArray *)friendGroupIDs allowCommercialUse:(BOOL)allowCommercialUse allowDerivation:(BOOL)allowDerivation parent:(NSString *)parentID delegate:(id <ZBPixnetAPIDelegate>)delegate;
-- (void)deleteAlbumSet:(NSString *)albumSetID  delegate:(id <ZBPixnetAPIDelegate>)delegate;
+- (void)deleteAlbumSet:(NSString *)albumSetID delegate:(id <ZBPixnetAPIDelegate>)delegate;
 - (void)reorderAlbumSetsWithIDArray:(NSArray *)albumSetIDArray delegate:(id <ZBPixnetAPIDelegate>)delegate;
 
 #pragma mark Album Folders (VIP)
@@ -229,6 +253,13 @@ typedef enum {
 - (void)editAlbumFolder:(NSString *)albumFolderID title:(NSString *)title desciption:(NSString *)desciption delegate:(id <ZBPixnetAPIDelegate>)delegate;
 - (void)deleteAlbumFolder:(NSString *)albumFolderID delegate:(id <ZBPixnetAPIDelegate>)delegate;
 
+#pragma mark Album Elements (Media Files)
 
+- (void)fetchElementsInAlbumSet:(NSString *)albumSetID elementOwner:(NSString *)userID page:(NSUInteger)page elementsPerPage:(NSUInteger)elementsPerPage delegate:(id <ZBPixnetAPIDelegate>)delegate;
+- (void)fetchElement:(NSString *)elementID elementOwner:(NSString *)userID delegate:(id <ZBPixnetAPIDelegate>)delegate;
+- (void)uploadFile:(NSString *)filepath toTagetAlbumSet:(NSString *)albumSetID title:(NSString *)title description:(NSString *)description videoThumbnailType:(NSString *)videoThumbnailType optimized:(BOOL)optimized rotateByEXIF:(BOOL)rotateByEXIF rotateByMetadata:(BOOL)rotateByMetadata useSquareTHumbnail:(BOOL)useSquareTHumbnail addWatermark:(BOOL)addWatermark insertAtEngin:(BOOL)insertAtEngin delegate:(id <ZBPixnetAPIDelegate>)delegate;
+- (void)editElement:(NSString *)elementID toTagetAlbumSet:(NSString *)albumSetID title:(NSString *)title description:(NSString *)description videoThumbnailType:(NSString *)videoThumbnailType delegate:(id <ZBPixnetAPIDelegate>)delegate;
+- (void)deleteElement:(NSString *)elementID delegate:(id <ZBPixnetAPIDelegate>)delegate;
+- (void)reorderElementsWithIDArray:(NSArray *)elementIDArray delegate:(id <ZBPixnetAPIDelegate>)delegate;
 
 @end

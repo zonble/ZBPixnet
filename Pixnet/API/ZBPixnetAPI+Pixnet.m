@@ -7,6 +7,12 @@ NSString *const ZBPixnetCommentFilterWhisper = @"whisper";
 NSString *const ZBPixnetCommentFilterNoSpam = @"nospam";
 NSString *const ZBPixnetCommentFilterNoReply = @"noreply";
 
+// Video Thumbnail Position
+
+NSString *const ZBPixnetVideoThumbnailPositionBeginning = @"beginning";
+NSString *const ZBPixnetVideoThumbnailPositionMiddle = @"middle";
+NSString *const ZBPixnetVideoThumbnailPositionEnd = @"end";
+
 // API Paths
 
 static NSString *const kPixnetAccount = @"account";
@@ -22,6 +28,9 @@ static NSString *const kPixnetAlbumSets = @"album/sets";
 static NSString *const kPixnetAlbumSetsPosition = @"album/sets/position";
 static NSString *const kPixnetAlbumFolders = @"album/folders";
 static NSString *const kPixnetAlbumFoldersPosition = @"album/folders/position";
+static NSString *const kPixnetAlbumElements = @"album/elements";
+static NSString *const kPixnetAlbumElementsPosition = @"album/elements/position";
+
 
 
 @implementation ZBPixnetAPI(Pixnet)
@@ -728,5 +737,25 @@ static NSString *const kPixnetAlbumFoldersPosition = @"album/folders/position";
 	[self doFetchWithPath:path method:@"DELETE" delegate:delegate didFinishSelector:@selector(API:didDeleteAlbumFolder:) didFailSelector:@selector(API:didFailDeletingAlbumFolder:) parameters:nil];		
 }
 
+#pragma mark Album Elements (Media Files)
+
+- (void)fetchElementsInAlbumSet:(NSString *)albumSetID elementOwner:(NSString *)userID page:(NSUInteger)page elementsPerPage:(NSUInteger)elementsPerPage delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+}
+- (void)fetchElement:(NSString *)elementID elementOwner:(NSString *)userID delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+}
+- (void)uploadFile:(NSString *)filepath toTagetAlbumSet:(NSString *)albumSetID title:(NSString *)title description:(NSString *)description videoThumbnailType:(NSString *)videoThumbnailType optimized:(BOOL)optimized rotateByEXIF:(BOOL)rotateByEXIF rotateByMetadata:(BOOL)rotateByMetadata useSquareTHumbnail:(BOOL)useSquareTHumbnail addWatermark:(BOOL)addWatermark insertAtEngin:(BOOL)insertAtEngin delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+}
+- (void)editElement:(NSString *)elementID toTagetAlbumSet:(NSString *)albumSetID title:(NSString *)title description:(NSString *)description videoThumbnailType:(NSString *)videoThumbnailType delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+}
+- (void)deleteElement:(NSString *)elementID delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+}
+- (void)reorderElementsWithIDArray:(NSArray *)elementIDArray delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+}
 
 @end

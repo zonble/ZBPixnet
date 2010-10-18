@@ -133,278 +133,278 @@
 //	[API reorderAlbumSetsWithIDArray:[NSArray arrayWithObjects:@"14289459", @"946985", @"686752", @"943632", nil] delegate:self];
 //	[API fetchAlbumFolderOfUser:@"far" hideUserInfo:NO page:1 albumFoldersPerPage:100 delegate:self];
 //	[API fetchAlbumFolder:@"14444157" albumOwner:@"far" delegate:self];
-	[API createAlbumFolderWithTitle:@"Test" desciption:@"Test" delegate:self];
-	[API editAlbumFolder:@"14444157" title:@"Test" desciption:@"Test" delegate:self];
-	[API deleteAlbumFolder:@"14444157" delegate:self];
+//	[API createAlbumFolderWithTitle:@"Test" desciption:@"Test" delegate:self];
+//	[API editAlbumFolder:@"14444157" title:@"Test" desciption:@"Test" delegate:self];
+//	[API deleteAlbumFolder:@"14444157" delegate:self];
 }
 
 #pragma mark -
 
-- (void)API:(ZBPixnetAPI *)inAPI didFetchAccountInfo:(NSDictionary *)accountInfo
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, accountInfo);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAccountInfo:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFetchUserInfo:(NSDictionary *)userInfo
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, userInfo);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingUserInfo:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFetchBlogCategories:(NSDictionary *)inBlogCategories
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inBlogCategories);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingBlogCategories:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didCreateBlogCategory:(NSDictionary *)inBlogCategory
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inBlogCategory);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailCreatingBlogCategory:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didEditBlogCategory:(NSDictionary *)inBlogCategory
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inBlogCategory);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailEditingBlogCategory:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didDeleteBlogCategory:(NSDictionary *)inBlogCategory
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inBlogCategory);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailDeletingBlogCategory:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didReorderBlogCategories:(NSDictionary *)inMessage
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inMessage);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailReorderingBlogCategories:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFetchArticles:(NSDictionary *)inArticles
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inArticles);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingArticles:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFetchArticle:(NSDictionary *)inArticle
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inArticle);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingArticle:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didCreateArticle:(NSDictionary *)inArticle
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inArticle);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailCreatingArticle:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didEditArticle:(NSDictionary *)inArticle
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inArticle);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailEditingArticle:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didDeleteArticle:(NSDictionary *)inArticle
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inArticle);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailDeletingArticle:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFetchComments:(NSDictionary *)inComments
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inComments);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingComments:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didCreateComment:(NSDictionary *)inComment
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inComment);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailCreatingComment:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didReplyComment:(NSDictionary *)inComment
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inComment);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailReplyingComment:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didMakeCommentPublic:(NSDictionary *)inComment
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inComment);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailMakingCommentPublic:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didMakeCommentPrivate:(NSDictionary *)inComment
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inComment);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailMakingCommentPrivate:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didMarkCommentAsSpam:(NSDictionary *)inComment
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inComment);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailMarkingCommentAsSpam:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didUnmarkCommentAsSpam:(NSDictionary *)inComment
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inComment);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailUnmarkingCommentAsSpam:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didDeleteComment:(NSDictionary *)inMessage
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inMessage);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailDeletingComment:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFetchBlogSiteCategories:(NSDictionary *)inBlogSiteCategories
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inBlogSiteCategories);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingBlogSiteCategories:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFetchAlbumSetFolders:(NSDictionary *)inAlbumSetFolders
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumSetFolders);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAlbumSetFolders:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didReorderAlbumSetFolders:(NSDictionary *)inAlbumSetFolders
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumSetFolders);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailReorderingAlbumSetFolders:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFetchAlbumSets:(NSDictionary *)inAlbumSets
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumSets);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAlbumSets:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didCreateAlbumSet:(NSDictionary *)inAlbumSet
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumSet);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailCreatingAlbumSet:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didEditAlbumSet:(NSDictionary *)inAlbumSet
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumSet);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailEditingAlbumSet:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didDeleteAlbumSet:(NSDictionary *)inMessage
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inMessage);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailDeletingAlbumSet:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didReorderAlbumSets:(NSDictionary *)inAlbumSet
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumSet);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailReorderingAlbumSets:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFetchAlbumFolders:(NSDictionary *)inAlbumFolders
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumFolders);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAlbumFolders:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFetchAlbumFolder:(NSDictionary *)inAlbumFolder
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumFolder);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAlbumFolder:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didCreateAlbumFolder:(NSDictionary *)inAlbumFolder
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumFolder);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailCreatingAlbumFolder:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didEditAlbumFolder:(NSDictionary *)inAlbumFolder
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumFolder);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailEditingAlbumFolder:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didDeleteAlbumFolder:(NSDictionary *)inMessage
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inMessage);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailDeletingAlbumFolder:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
-
+//- (void)API:(ZBPixnetAPI *)inAPI didFetchAccountInfo:(NSDictionary *)accountInfo
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, accountInfo);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAccountInfo:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFetchUserInfo:(NSDictionary *)userInfo
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, userInfo);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingUserInfo:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFetchBlogCategories:(NSDictionary *)inBlogCategories
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inBlogCategories);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingBlogCategories:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didCreateBlogCategory:(NSDictionary *)inBlogCategory
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inBlogCategory);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailCreatingBlogCategory:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didEditBlogCategory:(NSDictionary *)inBlogCategory
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inBlogCategory);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailEditingBlogCategory:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didDeleteBlogCategory:(NSDictionary *)inBlogCategory
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inBlogCategory);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailDeletingBlogCategory:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didReorderBlogCategories:(NSDictionary *)inMessage
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inMessage);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailReorderingBlogCategories:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFetchArticles:(NSDictionary *)inArticles
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inArticles);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingArticles:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFetchArticle:(NSDictionary *)inArticle
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inArticle);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingArticle:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didCreateArticle:(NSDictionary *)inArticle
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inArticle);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailCreatingArticle:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didEditArticle:(NSDictionary *)inArticle
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inArticle);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailEditingArticle:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didDeleteArticle:(NSDictionary *)inArticle
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inArticle);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailDeletingArticle:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFetchComments:(NSDictionary *)inComments
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inComments);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingComments:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didCreateComment:(NSDictionary *)inComment
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inComment);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailCreatingComment:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didReplyComment:(NSDictionary *)inComment
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inComment);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailReplyingComment:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didMakeCommentPublic:(NSDictionary *)inComment
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inComment);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailMakingCommentPublic:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didMakeCommentPrivate:(NSDictionary *)inComment
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inComment);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailMakingCommentPrivate:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didMarkCommentAsSpam:(NSDictionary *)inComment
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inComment);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailMarkingCommentAsSpam:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didUnmarkCommentAsSpam:(NSDictionary *)inComment
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inComment);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailUnmarkingCommentAsSpam:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didDeleteComment:(NSDictionary *)inMessage
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inMessage);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailDeletingComment:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFetchBlogSiteCategories:(NSDictionary *)inBlogSiteCategories
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inBlogSiteCategories);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingBlogSiteCategories:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFetchAlbumSetFolders:(NSDictionary *)inAlbumSetFolders
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumSetFolders);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAlbumSetFolders:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didReorderAlbumSetFolders:(NSDictionary *)inAlbumSetFolders
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumSetFolders);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailReorderingAlbumSetFolders:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFetchAlbumSets:(NSDictionary *)inAlbumSets
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumSets);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAlbumSets:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didCreateAlbumSet:(NSDictionary *)inAlbumSet
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumSet);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailCreatingAlbumSet:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didEditAlbumSet:(NSDictionary *)inAlbumSet
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumSet);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailEditingAlbumSet:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didDeleteAlbumSet:(NSDictionary *)inMessage
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inMessage);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailDeletingAlbumSet:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didReorderAlbumSets:(NSDictionary *)inAlbumSet
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumSet);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailReorderingAlbumSets:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFetchAlbumFolders:(NSDictionary *)inAlbumFolders
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumFolders);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAlbumFolders:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFetchAlbumFolder:(NSDictionary *)inAlbumFolder
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumFolder);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAlbumFolder:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didCreateAlbumFolder:(NSDictionary *)inAlbumFolder
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumFolder);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailCreatingAlbumFolder:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didEditAlbumFolder:(NSDictionary *)inAlbumFolder
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumFolder);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailEditingAlbumFolder:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didDeleteAlbumFolder:(NSDictionary *)inMessage
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inMessage);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailDeletingAlbumFolder:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//
 
 #pragma mark Table view methods
 
