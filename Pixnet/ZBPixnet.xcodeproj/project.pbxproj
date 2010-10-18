@@ -19,9 +19,7 @@
 		D4499CE012428C7D0057969C /* Base64Transcoder.c in Sources */ = {isa = PBXBuildFile; fileRef = D4499CBD12428C7D0057969C /* Base64Transcoder.c */; };
 		D4499CE112428C7D0057969C /* hmac.c in Sources */ = {isa = PBXBuildFile; fileRef = D4499CBF12428C7D0057969C /* hmac.c */; };
 		D4499CE212428C7D0057969C /* sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = D4499CC112428C7D0057969C /* sha1.c */; };
-		D4499CE312428C7D0057969C /* OACall.m in Sources */ = {isa = PBXBuildFile; fileRef = D4499CC412428C7D0057969C /* OACall.m */; };
 		D4499CE412428C7D0057969C /* OAConsumer.m in Sources */ = {isa = PBXBuildFile; fileRef = D4499CC612428C7D0057969C /* OAConsumer.m */; };
-		D4499CE512428C7D0057969C /* OADataFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = D4499CC812428C7D0057969C /* OADataFetcher.m */; };
 		D4499CE612428C7D0057969C /* OAHMAC_SHA1SignatureProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = D4499CCA12428C7D0057969C /* OAHMAC_SHA1SignatureProvider.m */; };
 		D4499CE712428C7D0057969C /* OAMutableURLRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D4499CCC12428C7D0057969C /* OAMutableURLRequest.m */; };
 		D4499CE812428C7D0057969C /* OAPlaintextSignatureProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = D4499CCE12428C7D0057969C /* OAPlaintextSignatureProvider.m */; };
@@ -29,7 +27,6 @@
 		D4499CEA12428C7D0057969C /* OARequestParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = D4499CD212428C7D0057969C /* OARequestParameter.m */; };
 		D4499CEB12428C7D0057969C /* OAServiceTicket.m in Sources */ = {isa = PBXBuildFile; fileRef = D4499CD412428C7D0057969C /* OAServiceTicket.m */; };
 		D4499CED12428C7D0057969C /* OAToken.m in Sources */ = {isa = PBXBuildFile; fileRef = D4499CD812428C7D0057969C /* OAToken.m */; };
-		D4499CEE12428C7D0057969C /* OATokenManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D4499CDA12428C7D0057969C /* OATokenManager.m */; };
 		D4499CF512428CCD0057969C /* ZBPixnetAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = D4499CF412428CCD0057969C /* ZBPixnetAPI.m */; };
 		D4591DFC1269FDB400F41FFB /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D4591DFB1269FDB400F41FFB /* libxml2.dylib */; };
 		D4591F79126A16C000F41FFB /* ZBFetchOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = D4591F78126A16C000F41FFB /* ZBFetchOperation.m */; };
@@ -67,12 +64,8 @@
 		D4499CC012428C7D0057969C /* hmac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hmac.h; sourceTree = "<group>"; };
 		D4499CC112428C7D0057969C /* sha1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sha1.c; sourceTree = "<group>"; };
 		D4499CC212428C7D0057969C /* sha1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sha1.h; sourceTree = "<group>"; };
-		D4499CC312428C7D0057969C /* OACall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OACall.h; sourceTree = "<group>"; };
-		D4499CC412428C7D0057969C /* OACall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OACall.m; sourceTree = "<group>"; };
 		D4499CC512428C7D0057969C /* OAConsumer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OAConsumer.h; sourceTree = "<group>"; };
 		D4499CC612428C7D0057969C /* OAConsumer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OAConsumer.m; sourceTree = "<group>"; };
-		D4499CC712428C7D0057969C /* OADataFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OADataFetcher.h; sourceTree = "<group>"; };
-		D4499CC812428C7D0057969C /* OADataFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OADataFetcher.m; sourceTree = "<group>"; };
 		D4499CC912428C7D0057969C /* OAHMAC_SHA1SignatureProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OAHMAC_SHA1SignatureProvider.h; sourceTree = "<group>"; };
 		D4499CCA12428C7D0057969C /* OAHMAC_SHA1SignatureProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OAHMAC_SHA1SignatureProvider.m; sourceTree = "<group>"; };
 		D4499CCB12428C7D0057969C /* OAMutableURLRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OAMutableURLRequest.h; sourceTree = "<group>"; };
@@ -88,8 +81,6 @@
 		D4499CD512428C7D0057969C /* OASignatureProviding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OASignatureProviding.h; sourceTree = "<group>"; };
 		D4499CD712428C7D0057969C /* OAToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OAToken.h; sourceTree = "<group>"; };
 		D4499CD812428C7D0057969C /* OAToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OAToken.m; sourceTree = "<group>"; };
-		D4499CD912428C7D0057969C /* OATokenManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OATokenManager.h; sourceTree = "<group>"; };
-		D4499CDA12428C7D0057969C /* OATokenManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OATokenManager.m; sourceTree = "<group>"; };
 		D4499CDB12428C7D0057969C /* OAuthConsumer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OAuthConsumer.h; sourceTree = "<group>"; };
 		D4499CF312428CCD0057969C /* ZBPixnetAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZBPixnetAPI.h; path = API/ZBPixnetAPI.h; sourceTree = "<group>"; };
 		D4499CF412428CCD0057969C /* ZBPixnetAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZBPixnetAPI.m; path = API/ZBPixnetAPI.m; sourceTree = "<group>"; };
@@ -207,12 +198,8 @@
 			children = (
 				D4499CB512428C7D0057969C /* Categories */,
 				D4499CBC12428C7D0057969C /* Crytpo */,
-				D4499CC312428C7D0057969C /* OACall.h */,
-				D4499CC412428C7D0057969C /* OACall.m */,
 				D4499CC512428C7D0057969C /* OAConsumer.h */,
 				D4499CC612428C7D0057969C /* OAConsumer.m */,
-				D4499CC712428C7D0057969C /* OADataFetcher.h */,
-				D4499CC812428C7D0057969C /* OADataFetcher.m */,
 				D4499CC912428C7D0057969C /* OAHMAC_SHA1SignatureProvider.h */,
 				D4499CCA12428C7D0057969C /* OAHMAC_SHA1SignatureProvider.m */,
 				D4499CCB12428C7D0057969C /* OAMutableURLRequest.h */,
@@ -228,8 +215,6 @@
 				D4499CD512428C7D0057969C /* OASignatureProviding.h */,
 				D4499CD712428C7D0057969C /* OAToken.h */,
 				D4499CD812428C7D0057969C /* OAToken.m */,
-				D4499CD912428C7D0057969C /* OATokenManager.h */,
-				D4499CDA12428C7D0057969C /* OATokenManager.m */,
 				D4499CDB12428C7D0057969C /* OAuthConsumer.h */,
 			);
 			name = oauthconsumer;
@@ -365,9 +350,7 @@
 				D4499CE012428C7D0057969C /* Base64Transcoder.c in Sources */,
 				D4499CE112428C7D0057969C /* hmac.c in Sources */,
 				D4499CE212428C7D0057969C /* sha1.c in Sources */,
-				D4499CE312428C7D0057969C /* OACall.m in Sources */,
 				D4499CE412428C7D0057969C /* OAConsumer.m in Sources */,
-				D4499CE512428C7D0057969C /* OADataFetcher.m in Sources */,
 				D4499CE612428C7D0057969C /* OAHMAC_SHA1SignatureProvider.m in Sources */,
 				D4499CE712428C7D0057969C /* OAMutableURLRequest.m in Sources */,
 				D4499CE812428C7D0057969C /* OAPlaintextSignatureProvider.m in Sources */,
@@ -375,7 +358,6 @@
 				D4499CEA12428C7D0057969C /* OARequestParameter.m in Sources */,
 				D4499CEB12428C7D0057969C /* OAServiceTicket.m in Sources */,
 				D4499CED12428C7D0057969C /* OAToken.m in Sources */,
-				D4499CEE12428C7D0057969C /* OATokenManager.m in Sources */,
 				D4499CF512428CCD0057969C /* ZBPixnetAPI.m in Sources */,
 				D4591F79126A16C000F41FFB /* ZBFetchOperation.m in Sources */,
 				D4592122126A2B0D00F41FFB /* NSArray+BSJSONAdditions.m in Sources */,
