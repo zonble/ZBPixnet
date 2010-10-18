@@ -17,6 +17,7 @@ static NSString *const kPixnetBlogSiteCategories = @"blog/site_categories";
 static NSString *const kPixnetAlbumSetFolders = @"album/setfolders";
 static NSString *const kPixnetAlbumSetFoldersPosition = @"album/setfolders/position";
 static NSString *const kPixnetAlbumSets = @"album/sets";
+static NSString *const kPixnetAlbumSetsPosition = @"album/sets/position";
 
 @implementation ZBPixnetAPI(Pixnet)
 
@@ -600,11 +601,28 @@ static NSString *const kPixnetAlbumSets = @"album/sets";
 }
 - (void)editAlbumSet:(NSString *)albumSetID title:(NSString *)title description:(NSString *)description permission:(ZBPixnetAlbumSetPermission)permission category:(NSString *)categoryID disableRightClick:(BOOL)disableRightClick useCCLicense:(BOOL)useCCLicense commentPermission:(ZBPixnetCommentPermission)commentPermission password:(NSString *)password passwordHint:(NSString *)hint friendGroupIDs:(NSArray *)friendGroupIDs allowCommercialUse:(BOOL)allowCommercialUse allowDerivation:(BOOL)allowDerivation parent:(NSString *)parentID delegate:(id <ZBPixnetAPIDelegate>)delegate
 {
-	NSString *path = [kPixnetAlbumSets stringByAppendingFormat:@"/%@", albumSetID];
+	NSString *path = [kPixnetAlbumSets stringByAppendingFormat:@"/%@", [albumSetID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	NSArray *parameters = [self _albumSetParametersWithTitle:title description:description permission:permission category:categoryID disableRightClick:disableRightClick useCCLicense:useCCLicense commentPermission:commentPermission password:password passwordHint:hint friendGroupIDs:friendGroupIDs allowCommercialUse:allowDerivation allowDerivation:allowDerivation parent:parentID];	
 	[self doFetchWithPath:path method:@"POST" delegate:delegate didFinishSelector:@selector(API:didEditAlbumSet:) didFailSelector:@selector(API:didFailEditingAlbumSet:) parameters:parameters];
 }
-
+- (void)deleteAlbumSet:(NSString *)albumSetID  delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+	NSString *path = [kPixnetAlbumSets stringByAppendingFormat:@"/%@", [albumSetID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	[self doFetchWithPath:path method:@"DELETE" delegate:delegate didFinishSelector:@selector(API:didDeleteAlbumSet:) didFailSelector:@selector(API:didFailDeletingAlbumSet:) parameters:nil];
+}
+- (void)reorderAlbumSetsWithIDArray:(NSArray *)albumSetIDArray delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+	NSMutableArray *parameters = [NSMutableArray array];
+	NSMutableString *s = [NSMutableString string];
+	for (NSString *albumSetID in albumSetIDArray) {
+		[s appendString:albumSetID];
+		if (![albumSetID isEqual:[albumSetIDArray lastObject]]) {
+			[s appendString:@","];
+		}
+	}
+	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"ids" value:s] autorelease]];	
+	[self doFetchWithPath:kPixnetAlbumSetsPosition method:@"POST" delegate:delegate didFinishSelector:@selector(API:didReorderAlbumSets:) didFailSelector:@selector(API:didFailReorderingAlbumSets:) parameters:parameters];
+}
 
 
 @end
