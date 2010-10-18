@@ -5,6 +5,8 @@ NSString *const ZBPixnetCommentFilterWhisper = @"whisper";
 NSString *const ZBPixnetCommentFilterNoSpam = @"nospam";
 NSString *const ZBPixnetCommentFilterNoReply = @"noreply";
 
+// API Paths
+
 static NSString *const kPixnetAccount = @"account";
 static NSString *const kPixnetUserInfo = @"users";
 static NSString *const kPixnetBlogCategories = @"blog/categories";
@@ -12,6 +14,8 @@ static NSString *const kPixnetBlogCategoriesPosition = @"blog/categories/positio
 static NSString *const kPixnetBlogArticles = @"blog/articles";
 static NSString *const kPixnetBlogComments = @"blog/comments";
 static NSString *const kPixnetBlogSiteCategories = @"blog/site_categories";
+static NSString *const kPixnetAlbumSetFolders = @"album/setfolders";
+static NSString *const kPixnetAlbumSetFoldersPosition = @"album/setfolders/position";
 
 @implementation ZBPixnetAPI(Pixnet)
 
@@ -100,7 +104,7 @@ static NSString *const kPixnetBlogSiteCategories = @"blog/site_categories";
 	}	
 	[self doFetchWithPath:path method:@"DELETE" delegate:delegate didFinishSelector:@selector(API:didDeleteBlogCategory:) didFailSelector:@selector(API:didFailDeletingBlogCategory:) parameters:parameters];	
 }
-- (void)reoderBlogCategoriesWithIDArray:(NSArray *)categoryIDArray delegate:(id <ZBPixnetAPIDelegate>)delegate
+- (void)reorderBlogCategoriesWithIDArray:(NSArray *)categoryIDArray delegate:(id <ZBPixnetAPIDelegate>)delegate
 {
 	NSMutableString *ids = [NSMutableString string];
 	for (NSString *categoryID in categoryIDArray) {
@@ -475,8 +479,41 @@ static NSString *const kPixnetBlogSiteCategories = @"blog/site_categories";
 	if (containThumbnails) {
 		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"include_thumbs" value:@"true"] autorelease]];
 	}
-	[self doFetchWithPath:kPixnetBlogSiteCategories method:@"DELETE" delegate:delegate didFinishSelector:@selector(API:didFetchBlogSiteCategories:) didFailSelector:@selector(API:didFailFetchingBlogSiteCategories:) parameters:parameters];	
+	[self doFetchWithPath:kPixnetBlogSiteCategories method:@"GET" delegate:delegate didFinishSelector:@selector(API:didFetchBlogSiteCategories:) didFailSelector:@selector(API:didFailFetchingBlogSiteCategories:) parameters:parameters];	
 }
 
+#pragma mark -
+#pragma mark Album Set Folders
+
+- (void)fetchAlbumSetFoldersOfUser:(NSString *)userID hideUserInfo:(BOOL)hideUserInfo page:(NSUInteger)page albumSetsPerPage:(NSUInteger)perPage delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+	NSMutableArray *parameters = [NSMutableArray array];
+	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"user" value:userID] autorelease]];
+	if (hideUserInfo) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"trim_user" value:@"1"] autorelease]];
+	}
+	if (page > 1) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"page" value:[[NSNumber numberWithUnsignedInt:page] stringValue]] autorelease]];
+	}
+	if (perPage && perPage != 100) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"per_page" value:[[NSNumber numberWithUnsignedInt:perPage] stringValue]] autorelease]];
+	}
+	
+	[self doFetchWithPath:kPixnetAlbumSetFolders method:@"GET" delegate:delegate didFinishSelector:@selector(API:didFetchAlbumSetFolders:) didFailSelector:@selector(API:didFailFetchingAlbumSetFolders:) parameters:parameters];		
+}
+- (void)reorderAlbumSetFoldersWithIDArray:(NSArray *)albumSetFolderIDArray delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+	NSMutableArray *parameters = [NSMutableArray array];
+	NSMutableString *s = [NSMutableString string];
+	for (NSString *albumSetFolderID in albumSetFolderIDArray) {
+		[s appendString:albumSetFolderID];
+		if (![albumSetFolderID isEqual:[albumSetFolderIDArray lastObject]]) {
+			[s appendString:@","];
+		}
+	}
+	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"ids" value:s] autorelease]];
+	[self doFetchWithPath:kPixnetAlbumSetFoldersPosition method:@"POST" delegate:delegate didFinishSelector:@selector(API:didReorderAlbumSetFolders:) didFailSelector:@selector(API:didFailReorderingAlbumSetFolders:) parameters:parameters];		
+
+}
 
 @end

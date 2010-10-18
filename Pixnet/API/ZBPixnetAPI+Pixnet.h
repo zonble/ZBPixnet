@@ -6,15 +6,20 @@ extern NSString *const ZBPixnetCommentFilterNoSpam;
 extern NSString *const ZBPixnetCommentFilterNoReply;
 
 @protocol ZBPixnetAPIDelegate <NSObject>
+
 @optional
+
 #pragma mark Account
+
 - (void)API:(ZBPixnetAPI *)inAPI didFetchAccountInfo:(NSDictionary *)inAccountInfo;
 - (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAccountInfo:(NSError *)inError;
 
 - (void)API:(ZBPixnetAPI *)inAPI didFetchUserInfo:(NSDictionary *)inUserInfo;
 - (void)API:(ZBPixnetAPI *)inAPI didFailFetchingUserInfo:(NSError *)inError;
 
+#pragma mark -
 #pragma mark Blog categories
+
 - (void)API:(ZBPixnetAPI *)inAPI didFetchBlogCategories:(NSDictionary *)inBlogCategories;
 - (void)API:(ZBPixnetAPI *)inAPI didFailFetchingBlogCategories:(NSError *)inError;
 
@@ -31,6 +36,7 @@ extern NSString *const ZBPixnetCommentFilterNoReply;
 - (void)API:(ZBPixnetAPI *)inAPI didFailReorderingBlogCategories:(NSError *)inError;
 
 #pragma mark Blog Articles
+
 - (void)API:(ZBPixnetAPI *)inAPI didFetchArticles:(NSDictionary *)inArticles;
 - (void)API:(ZBPixnetAPI *)inAPI didFailFetchingArticles:(NSError *)inError;
 
@@ -47,6 +53,7 @@ extern NSString *const ZBPixnetCommentFilterNoReply;
 - (void)API:(ZBPixnetAPI *)inAPI didFailDeletingArticle:(NSError *)inError;
 
 #pragma mark Blog Comments
+
 - (void)API:(ZBPixnetAPI *)inAPI didFetchComments:(NSDictionary *)inComments;
 - (void)API:(ZBPixnetAPI *)inAPI didFailFetchingComments:(NSError *)inError;
 
@@ -75,8 +82,18 @@ extern NSString *const ZBPixnetCommentFilterNoReply;
 - (void)API:(ZBPixnetAPI *)inAPI didFailDeletingComment:(NSError *)inError;
 
 #pragma mark Blog Site Categories
+
 - (void)API:(ZBPixnetAPI *)inAPI didFetchBlogSiteCategories:(NSDictionary *)inBlogSiteCategories;
 - (void)API:(ZBPixnetAPI *)inAPI didFailFetchingBlogSiteCategories:(NSError *)inError;
+
+#pragma mark -
+#pragma mark Album Set Folders
+
+- (void)API:(ZBPixnetAPI *)inAPI didFetchAlbumSetFolders:(NSDictionary *)inAlbumSetFolders;
+- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAlbumSetFolders:(NSError *)inError;
+
+- (void)API:(ZBPixnetAPI *)inAPI didReorderAlbumSetFolders:(NSDictionary *)inAlbumSetFolders;
+- (void)API:(ZBPixnetAPI *)inAPI didFailReorderingAlbumSetFolders:(NSError *)inError;
 
 
 @end
@@ -90,13 +107,14 @@ extern NSString *const ZBPixnetCommentFilterNoReply;
 - (void)fetchAccountInfoWithDelegate:(id <ZBPixnetAPIDelegate>)delegate;
 - (void)fetchUserInfo:(NSString *)userID delegate:(id <ZBPixnetAPIDelegate>)delegate;
 
+#pragma mark -
 #pragma mark Blog categories
 
 - (void)fetchBlogCategoriesOfUser:(NSString *)userID password:(NSString *)password delegate:(id <ZBPixnetAPIDelegate>)delegate;
 - (void)createBlogCategorieWithCategoryName:(NSString *)categoryName description:(NSString *)description type:(ZBPixnetBlogCategoryType)type visible:(BOOL)visible siteCategory:(NSString *)siteCategoryID delegate:(id <ZBPixnetAPIDelegate>)delegate;
 - (void)editBlogCategory:(NSString *)categoryID categoryName:(NSString *)categoryName description:(NSString *)description type:(ZBPixnetBlogCategoryType)type visible:(BOOL)visible siteCategory:(NSString *)siteCategoryID delegate:(id <ZBPixnetAPIDelegate>)delegate;
 - (void)deleteBlogCategory:(NSString *)categoryID type:(ZBPixnetBlogCategoryType)type delegate:(id <ZBPixnetAPIDelegate>)delegate;
-- (void)reoderBlogCategoriesWithIDArray:(NSArray *)categoryIDArray delegate:(id <ZBPixnetAPIDelegate>)delegate;
+- (void)reorderBlogCategoriesWithIDArray:(NSArray *)categoryIDArray delegate:(id <ZBPixnetAPIDelegate>)delegate;
 
 #pragma mark Blog Articles
 
@@ -121,5 +139,11 @@ extern NSString *const ZBPixnetCommentFilterNoReply;
 #pragma mark Blog Site Categories
 
 - (void)fetchBlogSiteCategoriesIncludingGroups:(BOOL)includeGroups containThumbnails:(BOOL)containThumbnails delegate:(id <ZBPixnetAPIDelegate>)delegate;
+
+#pragma mark -
+#pragma mark Album Set Folders
+
+- (void)fetchAlbumSetFoldersOfUser:(NSString *)userID hideUserInfo:(BOOL)hideUserInfo page:(NSUInteger)page albumSetsPerPage:(NSUInteger)perPage delegate:(id <ZBPixnetAPIDelegate>)delegate;
+- (void)reorderAlbumSetFoldersWithIDArray:(NSArray *)albumSetFolderIDArray delegate:(id <ZBPixnetAPIDelegate>)delegate;
 
 @end

@@ -104,7 +104,7 @@
 //	[API createBlogCategorieWithCategoryName:@"Test" description:@"Just a test" type:0 visible:YES siteCategory:@"0" delegate:self];
 //	[API editBlogCategory:@"1461659" categoryName:@"Test Editing 2" description:@"Just another test 2" type:0 visible:YES siteCategory:@"0" delegate:self];
 //	[API deleteBlogCategory:@"1461659" type:0 delegate:self];
-//	[API reoderBlogCategoriesWithIDArray:[NSArray arrayWithObjects:@"16138", @"1461661", @"1461663", nil] delegate:self];
+//	[API reorderBlogCategoriesWithIDArray:[NSArray arrayWithObjects:@"16138", @"1461661", @"1461663", nil] delegate:self];
 //	[API fetchArticlesOfUser:@"zonble" password:nil page:1 articlesPerPage:100 category:nil hideAuthorInfo:NO delegate:self];
 //	[API fetchArticle:@"25576745" user:@"zonble" password:nil articlePassword:nil delegate:self];
 //	[API createArticleWithTitle:@"HI" body:@"Hallo?!" status:ZBPixnetBlogArticleStatusPublished publishDate:[NSDate date] category:nil siteCategory:nil useNL2BR:NO commentPermission:ZBPixnetCommentPermissionOpen hideComments:NO trackbackURLs:nil articlePassword:nil passwordHint:nil friendGroupIDs:nil notifyTwitter:NO notifyFacebook:NO delegate:self];
@@ -123,7 +123,9 @@
 //	[API unmarkCommentAsSpam:@"29753763" delegate:self];	
 //	[API deleteComment:@"29753771" delegate:self];
 	
-	[API fetchBlogSiteCategoriesIncludingGroups:YES containThumbnails:YES delegate:self];
+//	[API fetchBlogSiteCategoriesIncludingGroups:YES containThumbnails:YES delegate:self];
+//	[API fetchAlbumSetFoldersOfUser:nil hideUserInfo:NO page:0 albumSetsPerPage:0 delegate:self];
+	[API reorderAlbumSetFoldersWithIDArray:[NSArray arrayWithObjects: @"943632", @"943634",@"686752",@"14289459", nil] delegate:self];
 }
 
 - (void)API:(ZBPixnetAPI *)inAPI didFetchAccountInfo:(NSDictionary *)accountInfo
@@ -291,6 +293,22 @@
 	NSLog(@"%s %@", __PRETTY_FUNCTION__, inBlogSiteCategories);
 }
 - (void)API:(ZBPixnetAPI *)inAPI didFailFetchingBlogSiteCategories:(NSError *)inError
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFetchAlbumSetFolders:(NSDictionary *)inAlbumSetFolders
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumSetFolders);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAlbumSetFolders:(NSError *)inError
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didReorderAlbumSetFolders:(NSDictionary *)inAlbumSetFolders
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumSetFolders);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFailReorderingAlbumSetFolders:(NSError *)inError
 {
 	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
 }
