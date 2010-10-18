@@ -1,6 +1,8 @@
 #import "ZBPixnetAPI+Pixnet.h"
 #import "ZBPixnetAPI+Private.h"
 
+// Comment filters
+
 NSString *const ZBPixnetCommentFilterWhisper = @"whisper";
 NSString *const ZBPixnetCommentFilterNoSpam = @"nospam";
 NSString *const ZBPixnetCommentFilterNoReply = @"noreply";
@@ -18,6 +20,9 @@ static NSString *const kPixnetAlbumSetFolders = @"album/setfolders";
 static NSString *const kPixnetAlbumSetFoldersPosition = @"album/setfolders/position";
 static NSString *const kPixnetAlbumSets = @"album/sets";
 static NSString *const kPixnetAlbumSetsPosition = @"album/sets/position";
+static NSString *const kPixnetAlbumFolders = @"album/folders";
+static NSString *const kPixnetAlbumFoldersPosition = @"album/folders/position";
+
 
 @implementation ZBPixnetAPI(Pixnet)
 
@@ -130,8 +135,7 @@ static NSString *const kPixnetAlbumSetsPosition = @"album/sets/position";
 	[self doFetchWithPath:kPixnetBlogCategoriesPosition method:@"POST" delegate:delegate didFinishSelector:@selector(API:didReorderBlogCategories:) didFailSelector:@selector(API:didFailReorderingBlogCategories:) parameters:parameters];	
 }
 
-#pragma mark -
-#pragma mark Articles
+#pragma mark Blog Articles
 
 - (void)fetchArticlesOfUser:(NSString *)userID password:(NSString *)password page:(NSUInteger)page articlesPerPage:(NSUInteger)perPage category:(NSString *)categoryID hideAuthorInfo:(BOOL)hideAuthorInfo delegate:(id <ZBPixnetAPIDelegate>)delegate
 {
@@ -291,7 +295,6 @@ static NSString *const kPixnetAlbumSetsPosition = @"album/sets/position";
 	[self doFetchWithPath:path method:@"DELETE" delegate:delegate didFinishSelector:@selector(API:didEditArticle:) didFailSelector:@selector(API:didFailEditingArticle:) parameters:nil];
 }
 
-#pragma mark -
 #pragma mark Blog Comments
 
 - (void)fetchBlogCommentsWithUserID:(NSString *)userID article:(NSString *)articleID password:(NSString *)password articlePassword:(NSString *)articlePassword filter:(NSString *)filter page:(NSUInteger)page commentsPerPage:(NSUInteger)perPage delegate:(id <ZBPixnetAPIDelegate>)delegate
@@ -469,7 +472,6 @@ static NSString *const kPixnetAlbumSetsPosition = @"album/sets/position";
 	
 }
 
-#pragma mark -
 #pragma mark Blog Site Categories
 
 - (void)fetchBlogSiteCategoriesIncludingGroups:(BOOL)includeGroups containThumbnails:(BOOL)containThumbnails delegate:(id <ZBPixnetAPIDelegate>)delegate
@@ -517,13 +519,14 @@ static NSString *const kPixnetAlbumSetsPosition = @"album/sets/position";
 	[self doFetchWithPath:kPixnetAlbumSetFoldersPosition method:@"POST" delegate:delegate didFinishSelector:@selector(API:didReorderAlbumSetFolders:) didFailSelector:@selector(API:didFailReorderingAlbumSetFolders:) parameters:parameters];
 }
 
-#pragma mark -
 #pragma mark Album Sets
 
 - (void)fetchAlbumSetsOfUser:(NSString *)userID parent:(NSString *)parentID hideUserInfo:(BOOL)hideUserInfo page:(NSUInteger)page albumSetsPerPage:(NSUInteger)perPage delegate:(id <ZBPixnetAPIDelegate>)delegate
 {
 	NSMutableArray *parameters = [NSMutableArray array];
-	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"user" value:userID] autorelease]];
+	if ([userID length]) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"user" value:userID] autorelease]];
+	}
 	if (hideUserInfo) {
 		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"trim_user" value:@"1"] autorelease]];
 	}
@@ -622,6 +625,53 @@ static NSString *const kPixnetAlbumSetsPosition = @"album/sets/position";
 	}
 	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"ids" value:s] autorelease]];	
 	[self doFetchWithPath:kPixnetAlbumSetsPosition method:@"POST" delegate:delegate didFinishSelector:@selector(API:didReorderAlbumSets:) didFailSelector:@selector(API:didFailReorderingAlbumSets:) parameters:parameters];
+}
+
+#pragma mark Album Folders
+
+- (void)fetchAlbumFolderOfUser:(NSString *)userID hideUserInfo:(BOOL)hideUserInfo page:(NSUInteger)page albumFoldersPerPage:(NSUInteger)perPage delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+	NSMutableArray *parameters = [NSMutableArray array];
+	if ([userID length]) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"user" value:userID] autorelease]];
+	}
+	if (hideUserInfo) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"trim_user" value:@"1"] autorelease]];
+	}
+	if (page > 1) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"page" value:[[NSNumber numberWithUnsignedInt:page] stringValue]] autorelease]];
+	}
+	if (perPage && perPage != 100) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"per_page" value:[[NSNumber numberWithUnsignedInt:perPage] stringValue]] autorelease]];
+	}	
+	[self doFetchWithPath:kPixnetAlbumFolders method:@"GET" delegate:delegate didFinishSelector:@selector(API:didFetchAlbumFolders:) didFailSelector:@selector(API:didFailFetchingAlbumFolders:) parameters:parameters];
+}
+
+- (void)fetchAlbumFolder:(NSString *)albumFolderID albumOwner:(NSString *)userID page:(NSUInteger)page albumFoldersPerPage:(NSUInteger)perPage delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+	if (albumFolderID) {
+		if (![albumFolderID isKindOfClass:[NSString class]]) {
+			if ([albumFolderID respondsToSelector:@selector(stringValue)]) {
+				albumFolderID = [(id)albumFolderID stringValue];
+			}
+			else {
+				albumFolderID = nil;
+			}
+		}
+	}
+	NSString *path = [kPixnetAlbumFolders stringByAppendingFormat:@"/%@", [albumFolderID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	NSMutableArray *parameters = [NSMutableArray array];
+	if (userID) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"user" value:userID] autorelease]];
+	}
+	if (page > 1) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"page" value:[[NSNumber numberWithUnsignedInt:page] stringValue]] autorelease]];
+	}
+	if (perPage && perPage != 100) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"per_page" value:[[NSNumber numberWithUnsignedInt:perPage] stringValue]] autorelease]];
+	}	
+	[self doFetchWithPath:path method:@"GET" delegate:delegate didFinishSelector:@selector(API:didFetchAlbumFolder:) didFailSelector:@selector(API:didFailFetchingAlbumFolder:) parameters:parameters];
+	
 }
 
 

@@ -131,6 +131,9 @@
 //	[API editAlbumSet:@"14459792" title:@"Test2" description:@"Test2" permission:ZBPixnetAlbumSetPermissionFriendsOnly category:nil disableRightClick:YES useCCLicense:YES commentPermission:ZBPixnetCommentPermissionClosed password:nil passwordHint:nil friendGroupIDs:nil allowCommercialUse:YES allowDerivation:YES parent:nil delegate:self];
 //	[API deleteAlbumSet:@"14459792" delegate:self];
 //	[API reorderAlbumSetsWithIDArray:[NSArray arrayWithObjects:@"14289459", @"946985", @"686752", @"943632", nil] delegate:self];
+//	[API fetchAlbumFolderOfUser:@"far" hideUserInfo:NO page:1 albumFoldersPerPage:100 delegate:self];
+	// folder id: 14444157
+//	[API fetchAlbumFolder:@"14444157" albumOwner:@"far" page:1 albumFoldersPerPage:100 delegate:self];
 }
 
 //- (void)API:(ZBPixnetAPI *)inAPI didFetchAccountInfo:(NSDictionary *)accountInfo
@@ -317,14 +320,14 @@
 //{
 //	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
 //}
-- (void)API:(ZBPixnetAPI *)inAPI didFetchAlbumSets:(NSDictionary *)inAlbumSets
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumSets);
-}
-- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAlbumSets:(NSError *)inError
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-}
+//- (void)API:(ZBPixnetAPI *)inAPI didFetchAlbumSets:(NSDictionary *)inAlbumSets
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumSets);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAlbumSets:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
 //- (void)API:(ZBPixnetAPI *)inAPI didCreateAlbumSet:(NSDictionary *)inAlbumSet
 //{
 //	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumSet);
@@ -357,7 +360,45 @@
 //{
 //	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
 //}
-
+- (void)API:(ZBPixnetAPI *)inAPI didFetchAlbumFolders:(NSDictionary *)inAlbumFolders
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumFolders);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAlbumFolders:(NSError *)inError
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFetchAlbumFolder:(NSDictionary *)inAlbumFolder
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumFolder);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAlbumFolder:(NSError *)inError
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didCreateAlbumFolder:(NSDictionary *)inAlbumFolder
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumFolder);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFailCreatingAlbumFolder:(NSError *)inError
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didEditAlbumFolder:(NSDictionary *)inAlbumFolder
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumFolder);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFailEditingAlbumSet:(NSError *)inError
+{
+}
+- (void)API:(ZBPixnetAPI *)inAPI didDeleteAlbumFolder:(NSDictionary *)inMessage
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inMessage);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFailDeletingAlbumFolder:(NSError *)inError
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+}
 
 
 #pragma mark Table view methods

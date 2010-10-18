@@ -146,6 +146,22 @@ typedef enum {
 - (void)API:(ZBPixnetAPI *)inAPI didReorderAlbumSets:(NSDictionary *)inAlbumSet;
 - (void)API:(ZBPixnetAPI *)inAPI didFailReorderingAlbumSets:(NSError *)inError;
 
+#pragma mark Album Folders
+
+- (void)API:(ZBPixnetAPI *)inAPI didFetchAlbumFolders:(NSDictionary *)inAlbumFolders;
+- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAlbumFolders:(NSError *)inError;
+
+- (void)API:(ZBPixnetAPI *)inAPI didFetchAlbumFolder:(NSDictionary *)inAlbumFolder;
+- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAlbumFolder:(NSError *)inError;
+
+- (void)API:(ZBPixnetAPI *)inAPI didCreateAlbumFolder:(NSDictionary *)inAlbumFolder;
+- (void)API:(ZBPixnetAPI *)inAPI didFailCreatingAlbumFolder:(NSError *)inError;
+
+- (void)API:(ZBPixnetAPI *)inAPI didEditAlbumFolder:(NSDictionary *)inAlbumFolder;
+- (void)API:(ZBPixnetAPI *)inAPI didFailEditingAlbumSet:(NSError *)inError;
+
+- (void)API:(ZBPixnetAPI *)inAPI didDeleteAlbumFolder:(NSDictionary *)inMessage;
+- (void)API:(ZBPixnetAPI *)inAPI didFailDeletingAlbumFolder:(NSError *)inError;
 
 @end
 
@@ -204,5 +220,10 @@ typedef enum {
 - (void)editAlbumSet:(NSString *)albumSetID title:(NSString *)title description:(NSString *)description permission:(ZBPixnetAlbumSetPermission)permission category:(NSString *)categoryID disableRightClick:(BOOL)disableRightClick useCCLicense:(BOOL)useCCLicense commentPermission:(ZBPixnetCommentPermission)commentPermission password:(NSString *)password passwordHint:(NSString *)hint friendGroupIDs:(NSArray *)friendGroupIDs allowCommercialUse:(BOOL)allowCommercialUse allowDerivation:(BOOL)allowDerivation parent:(NSString *)parentID delegate:(id <ZBPixnetAPIDelegate>)delegate;
 - (void)deleteAlbumSet:(NSString *)albumSetID  delegate:(id <ZBPixnetAPIDelegate>)delegate;
 - (void)reorderAlbumSetsWithIDArray:(NSArray *)albumSetIDArray delegate:(id <ZBPixnetAPIDelegate>)delegate;
+
+#pragma mark Album Folders
+
+- (void)fetchAlbumFolderOfUser:(NSString *)userID hideUserInfo:(BOOL)hideUserInfo page:(NSUInteger)page albumFoldersPerPage:(NSUInteger)perPage delegate:(id <ZBPixnetAPIDelegate>)delegate;
+- (void)fetchAlbumFolder:(NSString *)albumFolderID albumOwner:(NSString *)userID page:(NSUInteger)page albumFoldersPerPage:(NSUInteger)perPage delegate:(id <ZBPixnetAPIDelegate>)delegate;
 
 @end
