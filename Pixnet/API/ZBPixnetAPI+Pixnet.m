@@ -1,15 +1,19 @@
 #import "ZBPixnetAPI+Pixnet.h"
 #import "ZBPixnetAPI+Private.h"
 
+NSString *const ZBPixnetCommentFilterWhisper = @"whisper";
+NSString *const ZBPixnetCommentFilterNoSpam = @"nospam";
+NSString *const ZBPixnetCommentFilterNoReply = @"noreply";
+
 static NSString *const kPixnetAccount = @"account";
-static NSString *const kPixnetUserInfo = @"users/%@";
+static NSString *const kPixnetUserInfo = @"users";
 static NSString *const kPixnetBlogCategories = @"blog/categories";
 static NSString *const kPixnetBlogCategoriesPosition = @"blog/categories/position"; 
 static NSString *const kPixnetBlogArticles = @"blog/articles";
+static NSString *const kPixnetBlogComments = @"blog/comments";
 
 @implementation ZBPixnetAPI(Pixnet)
 
-#pragma mark -
 #pragma mark Account
 
 - (void)fetchAccountInfoWithDelegate:(id)delegate
@@ -19,7 +23,7 @@ static NSString *const kPixnetBlogArticles = @"blog/articles";
 
 - (void)fetchUserInfoWithUserID:(NSString *)userID delegate:(id <ZBPixnetAPIDelegate>)delegate
 {
-	NSString *path = [NSString stringWithFormat:kPixnetUserInfo, [userID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	NSString *path = [kPixnetUserInfo stringByAppendingFormat:@"/%@", [userID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	[self doFetchWithPath:path method:@"GET" delegate:delegate didFinishSelector:@selector(API:didFetchUserInfo:) didFailSelector:@selector(API:didFailFetchingUserInfo:) parameters:nil];	
 }
 
@@ -103,7 +107,7 @@ static NSString *const kPixnetBlogArticles = @"blog/articles";
 				categoryID = [(id)categoryID stringValue];
 			}
 			else {
-				continue;
+				categoryID = nil;
 			}
 		}
 		if (![categoryID length]) {
@@ -140,6 +144,9 @@ static NSString *const kPixnetBlogArticles = @"blog/articles";
 			if ([categoryID respondsToSelector:@selector(stringValue)]) {
 				categoryID = [(id)categoryID stringValue];
 			}
+			else {
+				categoryID = nil;
+			}
 		}
 		if ([categoryID isKindOfClass:[NSString class]]) {
 			[parameters addObject:[[[OARequestParameter alloc] initWithName:@"category_id" value:categoryID] autorelease]];
@@ -157,9 +164,12 @@ static NSString *const kPixnetBlogArticles = @"blog/articles";
 			if ([articleID respondsToSelector:@selector(stringValue)]) {
 				articleID = [(id)articleID stringValue];
 			}
+			else {
+				articleID = nil;
+			}
 		}
 	}	
-	NSString *path = [kPixnetBlogArticles stringByAppendingFormat:@"/%@", articleID];
+	NSString *path = [kPixnetBlogArticles stringByAppendingFormat:@"/%@", [articleID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	NSMutableArray *parameters = [NSMutableArray array];
 	if ([userID length]) {
 		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"user" value:userID] autorelease]];
@@ -257,7 +267,7 @@ static NSString *const kPixnetBlogArticles = @"blog/articles";
 			articleID = [(id)articleID stringValue];
 		}
 	}	
-	NSString *path = [kPixnetBlogArticles stringByAppendingFormat:@"/%@", articleID];
+	NSString *path = [kPixnetBlogArticles stringByAppendingFormat:@"/%@", [articleID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	NSArray *parameters = [self _articleParametersWithTitle:title body:body status:status publishDate:publishDate category:categoryID siteCategory:siteCategoryID useNL2BR:useNL2BR commentPermission:commentPermission hideComments:hideComments trackbackURLs:trackbackURLs articlePassword:articlePassword passwordHint:hint friendGroupIDs:friendGroupIDs notifyTwitter:notifyTwitter notifyFacebook:notifyFacebook];	
 	[self doFetchWithPath:path method:@"POST" delegate:delegate didFinishSelector:@selector(API:didEditArticle:) didFailSelector:@selector(API:didFailEditingArticle:) parameters:parameters];
 }
@@ -268,8 +278,77 @@ static NSString *const kPixnetBlogArticles = @"blog/articles";
 			articleID = [(id)articleID stringValue];
 		}
 	}	
-	NSString *path = [kPixnetBlogArticles stringByAppendingFormat:@"/%@", articleID];
+	NSString *path = [kPixnetBlogArticles stringByAppendingFormat:@"/%@", [articleID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	[self doFetchWithPath:path method:@"DELETE" delegate:delegate didFinishSelector:@selector(API:didEditArticle:) didFailSelector:@selector(API:didFailEditingArticle:) parameters:nil];
+}
+
+#pragma mark Blog Comments
+
+- (void)fetchBlogCommentsWithUserID:(NSString *)userID article:(NSString *)articleID password:(NSString *)password articlePassword:(NSString *)articlePassword filter:(NSString *)filter page:(NSUInteger)page commentsPerPage:(NSUInteger)perPage delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+	NSMutableArray *parameters = [NSMutableArray array];
+	if ([userID length]) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"user" value:userID] autorelease]];
+	}
+	if ([articleID length]) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"article_id" value:articleID] autorelease]];
+	}
+	if ([password length]) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"blog_password" value:password] autorelease]];
+	}
+	if ([articlePassword length]) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"article_password" value:articlePassword] autorelease]];
+	}	
+	if ([filter length]) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"filter" value:filter] autorelease]];
+	}	
+	if (page > 1) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"page" value:[[NSNumber numberWithUnsignedInteger:page] stringValue]] autorelease]];
+	}
+	if (perPage && perPage != 100) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"per_page" value:[[NSNumber numberWithUnsignedInteger:perPage] stringValue]] autorelease]];
+	}
+	
+	[self doFetchWithPath:kPixnetBlogComments method:@"GET" delegate:delegate didFinishSelector:@selector(API:didFetchComments:) didFailSelector:@selector(API:didFailFetchingComments:) parameters:parameters];
+}
+- (void)createBlogCommentForArticle:(NSString *)articleID body:(NSString *)body blogOwner:(NSString *)ownerUserID commenterNickname:(NSString *)nickname title:(NSString *)title commenterURL:(NSString *)URLString commenterEmail:(NSString *)email publicComment:(BOOL)publicComment password:(NSString *)password articlePassword:(NSString *)articlePassword delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+	NSMutableArray *parameters = [NSMutableArray array];
+	if (articleID) {
+		if (![articleID isKindOfClass:[NSString class]]) {
+			if ([articleID respondsToSelector:@selector(stringValue)]) {
+				articleID = [(id)articleID stringValue];
+			}
+			else {
+				articleID = nil;
+			}
+		}
+	}	
+	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"article_id" value:articleID] autorelease]];
+	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"body" value:body] autorelease]];
+	if ([ownerUserID length]) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"user" value:ownerUserID] autorelease]];
+	}
+	if ([nickname length]) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"author" value:nickname] autorelease]];
+	}
+	if ([title length]) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"title" value:title] autorelease]];
+	}
+	if ([URLString length]) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"url" value:URLString] autorelease]];
+	}
+	if ([email length]) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"email" value:email] autorelease]];
+	}	
+	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"is_open" value:[[NSNumber numberWithBool:publicComment] stringValue]] autorelease]];	
+	if ([password length]) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"blog_password" value:password] autorelease]];
+	}	
+	if ([password length]) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"article_password" value:articlePassword] autorelease]];
+	}	
+	[self doFetchWithPath:kPixnetBlogComments method:@"POST" delegate:delegate didFinishSelector:@selector(API:didCreateComment:) didFailSelector:@selector(API:didFailCreatingComment:) parameters:parameters];
 }
 
 
