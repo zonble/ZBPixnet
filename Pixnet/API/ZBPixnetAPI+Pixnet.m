@@ -261,7 +261,16 @@ static NSString *const kPixnetBlogArticles = @"blog/articles";
 	NSArray *parameters = [self _articleParametersWithTitle:title body:body status:status publishDate:publishDate category:categoryID siteCategory:siteCategoryID useNL2BR:useNL2BR commentPermission:commentPermission hideComments:hideComments trackbackURLs:trackbackURLs articlePassword:articlePassword passwordHint:hint friendGroupIDs:friendGroupIDs notifyTwitter:notifyTwitter notifyFacebook:notifyFacebook];	
 	[self doFetchWithPath:path method:@"POST" delegate:delegate didFinishSelector:@selector(API:didEditArticle:) didFailSelector:@selector(API:didFailEditingArticle:) parameters:parameters];
 }
-
+- (void)deleteArticleWithID:(NSString *)articleID delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+	if (![articleID isKindOfClass:[NSString class]]) {
+		if ([articleID respondsToSelector:@selector(stringValue)]) {
+			articleID = [(id)articleID stringValue];
+		}
+	}	
+	NSString *path = [kPixnetBlogArticles stringByAppendingFormat:@"/%@", articleID];
+	[self doFetchWithPath:path method:@"DELETE" delegate:delegate didFinishSelector:@selector(API:didEditArticle:) didFailSelector:@selector(API:didFailEditingArticle:) parameters:nil];
+}
 
 
 @end

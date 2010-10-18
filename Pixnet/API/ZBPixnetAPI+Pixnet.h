@@ -3,12 +3,14 @@
 
 @protocol ZBPixnetAPIDelegate <NSObject>
 
+#pragma mark Account
 - (void)API:(ZBPixnetAPI *)inAPI didFetchAccountInfo:(NSDictionary *)inAccountInfo;
 - (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAccountInfo:(NSError *)inError;
 
 - (void)API:(ZBPixnetAPI *)inAPI didFetchUserInfo:(NSDictionary *)inUserInfo;
 - (void)API:(ZBPixnetAPI *)inAPI didFailFetchingUserInfo:(NSError *)inError;
 
+#pragma mark Blog categories
 - (void)API:(ZBPixnetAPI *)inAPI didFetchBlogCategories:(NSDictionary *)inBlogCategories;
 - (void)API:(ZBPixnetAPI *)inAPI didFailFetchingBlogCategories:(NSError *)inError;
 
@@ -24,6 +26,7 @@
 - (void)API:(ZBPixnetAPI *)inAPI didReorderBlogCategories:(NSDictionary *)inMessage;
 - (void)API:(ZBPixnetAPI *)inAPI didFailReorderingBlogCategories:(NSError *)inError;
 
+#pragma mark Articles
 - (void)API:(ZBPixnetAPI *)inAPI didFetchArticles:(NSDictionary *)inArticles;
 - (void)API:(ZBPixnetAPI *)inAPI didFailFetchingArticles:(NSError *)inError;
 
@@ -36,7 +39,13 @@
 - (void)API:(ZBPixnetAPI *)inAPI didEditArticle:(NSDictionary *)inArticle;
 - (void)API:(ZBPixnetAPI *)inAPI didFailEditingArticle:(NSError *)inError;
 
+- (void)API:(ZBPixnetAPI *)inAPI didDeleteArticle:(NSDictionary *)inArticle;
+- (void)API:(ZBPixnetAPI *)inAPI didFailDeletingArticle:(NSError *)inError;
+
+
 @end
+
+#pragma mark -
 
 @interface ZBPixnetAPI(Pixnet)
 
@@ -59,5 +68,6 @@
 - (void)fetchArticleWithID:(NSString *)articleID user:(NSString *)userID password:(NSString *)password articlePassword:(NSString *)articlePassword delegate:(id <ZBPixnetAPIDelegate>)delegate;
 - (void)createArticleWithTitle:(NSString *)title body:(NSString *)body status:(ZBPixnetBlogArticleStatus)status publishDate:(NSDate *)publishDate category:(NSString *)categoryID siteCategory:(NSString *)siteCategoryID useNL2BR:(BOOL)useNL2BR commentPermission:(ZBPixnetCommentPermission)commentPermission hideComments:(BOOL)hideComments trackbackURLs:(NSArray *)trackbackURLs articlePassword:(NSString *)articlePassword passwordHint:(NSString *)hint friendGroupIDs:(NSArray *)friendGroupIDs notifyTwitter:(BOOL)notifyTwitter notifyFacebook:(BOOL)notifyFacebook delegate:(id <ZBPixnetAPIDelegate>)delegate;
 - (void)editArticleWithID:(NSString *)articleID title:(NSString *)title body:(NSString *)body status:(ZBPixnetBlogArticleStatus)status publishDate:(NSDate *)publishDate category:(NSString *)categoryID siteCategory:(NSString *)siteCategoryID useNL2BR:(BOOL)useNL2BR commentPermission:(ZBPixnetCommentPermission)commentPermission hideComments:(BOOL)hideComments trackbackURLs:(NSArray *)trackbackURLs articlePassword:(NSString *)articlePassword passwordHint:(NSString *)hint friendGroupIDs:(NSArray *)friendGroupIDs notifyTwitter:(BOOL)notifyTwitter notifyFacebook:(BOOL)notifyFacebook delegate:(id <ZBPixnetAPIDelegate>)delegate;
+- (void)deleteArticleWithID:(NSString *)articleID delegate:(id <ZBPixnetAPIDelegate>)delegate;
 
 @end
