@@ -173,7 +173,8 @@ static NSString *const kPixnetBlogArticles = @"blog/articles";
 	
 	[self doFetchWithPath:path method:@"GET" delegate:delegate didFinishSelector:@selector(API:didFetchArticle:) didFailSelector:@selector(API:didFailFetchingArticle:) parameters:parameters];
 }
-- (void)createArticleWithTitle:(NSString *)title body:(NSString *)body status:(ZBPixnetBlogArticleStatus)status publishDate:(NSDate *)publishDate category:(NSString *)categoryID siteCategory:(NSString *)siteCategoryID useNL2BR:(BOOL)useNL2BR commentPermission:(ZBPixnetCommentPermission)commentPermission hideComments:(BOOL)hideComments trackbackURLs:(NSArray *)trackbackURLs articlePassword:(NSString *)articlePassword passwordHint:(NSString *)hint friendGroupIDs:(NSArray *)friendGroupIDs notifyTwitter:(BOOL)notifyTwitter notifyFacebook:(BOOL)notifyFacebook delegate:(id <ZBPixnetAPIDelegate>)delegate
+
+- (NSArray *)_articleParametersWithTitle:(NSString *)title body:(NSString *)body status:(ZBPixnetBlogArticleStatus)status publishDate:(NSDate *)publishDate category:(NSString *)categoryID siteCategory:(NSString *)siteCategoryID useNL2BR:(BOOL)useNL2BR commentPermission:(ZBPixnetCommentPermission)commentPermission hideComments:(BOOL)hideComments trackbackURLs:(NSArray *)trackbackURLs articlePassword:(NSString *)articlePassword passwordHint:(NSString *)hint friendGroupIDs:(NSArray *)friendGroupIDs notifyTwitter:(BOOL)notifyTwitter notifyFacebook:(BOOL)notifyFacebook
 {
 	NSMutableArray *parameters = [NSMutableArray array];
 	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"title" value:title] autorelease]];
@@ -242,9 +243,25 @@ static NSString *const kPixnetBlogArticles = @"blog/articles";
 		}
 		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"trackback" value:URLString] autorelease]];		
 	}
-	
+	return parameters;
+}
+- (void)createArticleWithTitle:(NSString *)title body:(NSString *)body status:(ZBPixnetBlogArticleStatus)status publishDate:(NSDate *)publishDate category:(NSString *)categoryID siteCategory:(NSString *)siteCategoryID useNL2BR:(BOOL)useNL2BR commentPermission:(ZBPixnetCommentPermission)commentPermission hideComments:(BOOL)hideComments trackbackURLs:(NSArray *)trackbackURLs articlePassword:(NSString *)articlePassword passwordHint:(NSString *)hint friendGroupIDs:(NSArray *)friendGroupIDs notifyTwitter:(BOOL)notifyTwitter notifyFacebook:(BOOL)notifyFacebook delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+	NSArray *parameters = [self _articleParametersWithTitle:title body:body status:status publishDate:publishDate category:categoryID siteCategory:siteCategoryID useNL2BR:useNL2BR commentPermission:commentPermission hideComments:hideComments trackbackURLs:trackbackURLs articlePassword:articlePassword passwordHint:hint friendGroupIDs:friendGroupIDs notifyTwitter:notifyTwitter notifyFacebook:notifyFacebook];	
 	[self doFetchWithPath:kPixnetBlogArticles method:@"POST" delegate:delegate didFinishSelector:@selector(API:didCreateArticle:) didFailSelector:@selector(API:didFailCreatingArticle:) parameters:parameters];
 }
+- (void)editArticleWithID:(NSString *)articleID title:(NSString *)title body:(NSString *)body status:(ZBPixnetBlogArticleStatus)status publishDate:(NSDate *)publishDate category:(NSString *)categoryID siteCategory:(NSString *)siteCategoryID useNL2BR:(BOOL)useNL2BR commentPermission:(ZBPixnetCommentPermission)commentPermission hideComments:(BOOL)hideComments trackbackURLs:(NSArray *)trackbackURLs articlePassword:(NSString *)articlePassword passwordHint:(NSString *)hint friendGroupIDs:(NSArray *)friendGroupIDs notifyTwitter:(BOOL)notifyTwitter notifyFacebook:(BOOL)notifyFacebook delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+	if (![articleID isKindOfClass:[NSString class]]) {
+		if ([articleID respondsToSelector:@selector(stringValue)]) {
+			articleID = [(id)articleID stringValue];
+		}
+	}	
+	NSString *path = [kPixnetBlogArticles stringByAppendingFormat:@"/%@", articleID];
+	NSArray *parameters = [self _articleParametersWithTitle:title body:body status:status publishDate:publishDate category:categoryID siteCategory:siteCategoryID useNL2BR:useNL2BR commentPermission:commentPermission hideComments:hideComments trackbackURLs:trackbackURLs articlePassword:articlePassword passwordHint:hint friendGroupIDs:friendGroupIDs notifyTwitter:notifyTwitter notifyFacebook:notifyFacebook];	
+	[self doFetchWithPath:path method:@"POST" delegate:delegate didFinishSelector:@selector(API:didEditArticle:) didFailSelector:@selector(API:didFailEditingArticle:) parameters:parameters];
+}
+
 
 
 @end

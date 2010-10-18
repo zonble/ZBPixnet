@@ -107,7 +107,8 @@
 //	[API reoderBlogCategoriesWithIDArray:[NSArray arrayWithObjects:@"16138", @"1461661", @"1461663", nil] delegate:self];
 //	[API fetchArticlesOfUser:@"zonble" password:nil page:1 articlesPerPage:100 category:nil hideAuthorInfo:NO delegate:self];
 //	[API fetchArticleWithID:@"25576745" user:@"zonble" password:nil articlePassword:nil delegate:self];
-	[API createArticleWithTitle:@"HI" body:@"Hallo?!" status:ZBPixnetBlogArticleStatusPublished publishDate:[NSDate date] category:nil siteCategory:nil useNL2BR:NO commentPermission:ZBPixnetCommentPermissionOpen hideComments:NO trackbackURLs:nil articlePassword:nil passwordHint:nil friendGroupIDs:nil notifyTwitter:NO notifyFacebook:NO delegate:self];
+//	[API createArticleWithTitle:@"HI" body:@"Hallo?!" status:ZBPixnetBlogArticleStatusPublished publishDate:[NSDate date] category:nil siteCategory:nil useNL2BR:NO commentPermission:ZBPixnetCommentPermissionOpen hideComments:NO trackbackURLs:nil articlePassword:nil passwordHint:nil friendGroupIDs:nil notifyTwitter:NO notifyFacebook:NO delegate:self];
+	[API editArticleWithID:@"27353373" title:@"Test Editing" body:@"The body is changed" status:ZBPixnetBlogArticleStatusPublished publishDate:[NSDate date] category:nil siteCategory:nil useNL2BR:NO commentPermission:ZBPixnetCommentPermissionOpen hideComments:NO trackbackURLs:nil articlePassword:nil passwordHint:nil friendGroupIDs:nil notifyTwitter:NO notifyFacebook:NO delegate:self];
 }
 
 - (void)API:(ZBPixnetAPI *)inAPI didFetchAccountInfo:(NSDictionary *)accountInfo
@@ -187,6 +188,14 @@
 	NSLog(@"%s %@", __PRETTY_FUNCTION__, inArticle);
 }
 - (void)API:(ZBPixnetAPI *)inAPI didFailCreatingArticle:(NSError *)inError
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didEditArticle:(NSDictionary *)inArticle
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inArticle);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFailEditingArticle:(NSError *)inError
 {
 	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
 }
