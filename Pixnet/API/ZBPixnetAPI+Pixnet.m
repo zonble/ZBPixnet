@@ -11,6 +11,7 @@ static NSString *const kPixnetBlogCategories = @"blog/categories";
 static NSString *const kPixnetBlogCategoriesPosition = @"blog/categories/position"; 
 static NSString *const kPixnetBlogArticles = @"blog/articles";
 static NSString *const kPixnetBlogComments = @"blog/comments";
+static NSString *const kPixnetBlogSiteCategories = @"blog/site_categories";
 
 @implementation ZBPixnetAPI(Pixnet)
 
@@ -21,12 +22,13 @@ static NSString *const kPixnetBlogComments = @"blog/comments";
 	[self doFetchWithPath:kPixnetAccount method:@"GET" delegate:delegate didFinishSelector:@selector(API:didFetchAccountInfo:) didFailSelector:@selector(API:didFailFetchingAccountInfo:) parameters:nil];	
 }
 
-- (void)fetchUserInfoWithUserID:(NSString *)userID delegate:(id <ZBPixnetAPIDelegate>)delegate
+- (void)fetchUserInfo:(NSString *)userID delegate:(id <ZBPixnetAPIDelegate>)delegate
 {
 	NSString *path = [kPixnetUserInfo stringByAppendingFormat:@"/%@", [userID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	[self doFetchWithPath:path method:@"GET" delegate:delegate didFinishSelector:@selector(API:didFetchUserInfo:) didFailSelector:@selector(API:didFailFetchingUserInfo:) parameters:nil];	
 }
 
+#pragma mark -
 #pragma mark Blog
 
 - (void)fetchBlogCategoriesOfUser:(NSString *)userID password:(NSString *)password delegate:(id <ZBPixnetAPIDelegate>)delegate
@@ -122,6 +124,7 @@ static NSString *const kPixnetBlogComments = @"blog/comments";
 	[self doFetchWithPath:kPixnetBlogCategoriesPosition method:@"POST" delegate:delegate didFinishSelector:@selector(API:didReorderBlogCategories:) didFailSelector:@selector(API:didFailReorderingBlogCategories:) parameters:parameters];	
 }
 
+#pragma mark -
 #pragma mark Articles
 
 - (void)fetchArticlesOfUser:(NSString *)userID password:(NSString *)password page:(NSUInteger)page articlesPerPage:(NSUInteger)perPage category:(NSString *)categoryID hideAuthorInfo:(BOOL)hideAuthorInfo delegate:(id <ZBPixnetAPIDelegate>)delegate
@@ -282,6 +285,7 @@ static NSString *const kPixnetBlogComments = @"blog/comments";
 	[self doFetchWithPath:path method:@"DELETE" delegate:delegate didFinishSelector:@selector(API:didEditArticle:) didFailSelector:@selector(API:didFailEditingArticle:) parameters:nil];
 }
 
+#pragma mark -
 #pragma mark Blog Comments
 
 - (void)fetchBlogCommentsWithUserID:(NSString *)userID article:(NSString *)articleID password:(NSString *)password articlePassword:(NSString *)articlePassword filter:(NSString *)filter page:(NSUInteger)page commentsPerPage:(NSUInteger)perPage delegate:(id <ZBPixnetAPIDelegate>)delegate
@@ -457,6 +461,21 @@ static NSString *const kPixnetBlogComments = @"blog/comments";
 	NSString *path = [kPixnetBlogComments stringByAppendingFormat:@"/%@", [commentID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	[self doFetchWithPath:path method:@"DELETE" delegate:delegate didFinishSelector:@selector(API:didDeleteComment:) didFailSelector:@selector(API:didFailDeletingComment:) parameters:nil];
 	
+}
+
+#pragma mark -
+#pragma mark Blog Site Categories
+
+- (void)fetchBlogSiteCategoriesIncludingGroups:(BOOL)includeGroups containThumbnails:(BOOL)containThumbnails delegate:(id <ZBPixnetAPIDelegate>)delegate
+{
+	NSMutableArray *parameters = [NSMutableArray array];
+	if (includeGroups) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"include_groups" value:@"true"] autorelease]];
+	}
+	if (containThumbnails) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"include_thumbs" value:@"true"] autorelease]];
+	}
+	[self doFetchWithPath:kPixnetBlogSiteCategories method:@"DELETE" delegate:delegate didFinishSelector:@selector(API:didFetchBlogSiteCategories:) didFailSelector:@selector(API:didFailFetchingBlogSiteCategories:) parameters:parameters];	
 }
 
 

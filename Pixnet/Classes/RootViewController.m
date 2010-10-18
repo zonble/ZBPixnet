@@ -99,7 +99,7 @@
 	ZBPixnetAPI *API = [ZBPixnetAPI sharedAPI];
 	
 //	[API fetchAccountInfoWithDelegate:self];
-//	[API fetchUserInfoWithUserID:@"far" delegate:self];
+//	[API fetchUserInfo:@"far" delegate:self];
 //	[API fetchBlogCategoriesOfUser:@"zonble" password:nil delegate:self];	
 //	[API createBlogCategorieWithCategoryName:@"Test" description:@"Just a test" type:0 visible:YES siteCategory:@"0" delegate:self];
 //	[API editBlogCategory:@"1461659" categoryName:@"Test Editing 2" description:@"Just another test 2" type:0 visible:YES siteCategory:@"0" delegate:self];
@@ -115,13 +115,15 @@
 //	[API deleteArticle:@"27338381" delegate:self];
 //	[API deleteArticle:@"27336997" delegate:self];
 //	[API createBlogCommentForArticle:@"27336975" body:@"Test" blogOwner:@"zonble" commenterNickname:@"zonble" title:@"Just a test" commenterURL:@"http://zonble.net" commenterEmail:nil publicComment:YES password:nil articlePassword:nil delegate:self];
-	[API fetchBlogCommentsWithUserID:@"zonble" article:@"27336975" password:nil articlePassword:nil filter:nil page:1 commentsPerPage:100 delegate:self];
-	[API replyBlogComment:@"29753763" body:@"Reply" delegate:self];
-	[API makeCommentPublic:@"29753763" delegate:self];
-	[API makeCommentPrivate:@"29753763" delegate:self];
-	[API markCommentAsSpam:@"29753763" delegate:self];	
-	[API unmarkCommentAsSpam:@"29753763" delegate:self];	
-	[API deleteComment:@"29753771" delegate:self];
+//	[API fetchBlogCommentsWithUserID:@"zonble" article:@"27336975" password:nil articlePassword:nil filter:nil page:1 commentsPerPage:100 delegate:self];
+//	[API replyBlogComment:@"29753763" body:@"Reply" delegate:self];
+//	[API makeCommentPublic:@"29753763" delegate:self];
+//	[API makeCommentPrivate:@"29753763" delegate:self];
+//	[API markCommentAsSpam:@"29753763" delegate:self];	
+//	[API unmarkCommentAsSpam:@"29753763" delegate:self];	
+//	[API deleteComment:@"29753771" delegate:self];
+	
+	[API fetchBlogSiteCategoriesIncludingGroups:YES containThumbnails:YES delegate:self];
 }
 
 - (void)API:(ZBPixnetAPI *)inAPI didFetchAccountInfo:(NSDictionary *)accountInfo
@@ -281,6 +283,14 @@
 	NSLog(@"%s %@", __PRETTY_FUNCTION__, inMessage);
 }
 - (void)API:(ZBPixnetAPI *)inAPI didFailDeletingComment:(NSError *)inError
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFetchBlogSiteCategories:(NSDictionary *)inBlogSiteCategories
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inBlogSiteCategories);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingBlogSiteCategories:(NSError *)inError
 {
 	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
 }

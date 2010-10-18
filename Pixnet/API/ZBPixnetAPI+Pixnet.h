@@ -74,6 +74,10 @@ extern NSString *const ZBPixnetCommentFilterNoReply;
 - (void)API:(ZBPixnetAPI *)inAPI didDeleteComment:(NSDictionary *)inMessage;
 - (void)API:(ZBPixnetAPI *)inAPI didFailDeletingComment:(NSError *)inError;
 
+#pragma mark Blog Site Categories
+- (void)API:(ZBPixnetAPI *)inAPI didFetchBlogSiteCategories:(NSDictionary *)inBlogSiteCategories;
+- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingBlogSiteCategories:(NSError *)inError;
+
 
 @end
 
@@ -84,7 +88,7 @@ extern NSString *const ZBPixnetCommentFilterNoReply;
 #pragma mark Account
 
 - (void)fetchAccountInfoWithDelegate:(id <ZBPixnetAPIDelegate>)delegate;
-- (void)fetchUserInfoWithUserID:(NSString *)userID delegate:(id <ZBPixnetAPIDelegate>)delegate;
+- (void)fetchUserInfo:(NSString *)userID delegate:(id <ZBPixnetAPIDelegate>)delegate;
 
 #pragma mark Blog categories
 
@@ -113,4 +117,9 @@ extern NSString *const ZBPixnetCommentFilterNoReply;
 - (void)markCommentAsSpam:(NSString *)commentID delegate:(id <ZBPixnetAPIDelegate>)delegate;
 - (void)unmarkCommentAsSpam:(NSString *)commentID delegate:(id <ZBPixnetAPIDelegate>)delegate;
 - (void)deleteComment:(NSString *)commentID delegate:(id <ZBPixnetAPIDelegate>)delegate;
+
+#pragma mark Blog Site Categories
+
+- (void)fetchBlogSiteCategoriesIncludingGroups:(BOOL)includeGroups containThumbnails:(BOOL)containThumbnails delegate:(id <ZBPixnetAPIDelegate>)delegate;
+
 @end

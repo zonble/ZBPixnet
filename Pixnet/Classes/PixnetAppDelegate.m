@@ -1,17 +1,13 @@
-//
-//  PartRetardAppDelegate.m
-//  PartRetard
-//
 
-#import "PartRetardAppDelegate.h"
+#import "PixnetAppDelegate.h"
 #import "RootViewController.h"
 
 
-@implementation PartRetardAppDelegate
+@implementation PixnetAppDelegate
 
-+ (PartRetardAppDelegate *)sharedDelegate
++ (PixnetAppDelegate *)sharedDelegate
 {
-	return (PartRetardAppDelegate *)[UIApplication sharedApplication].delegate;
+	return (PixnetAppDelegate *)[UIApplication sharedApplication].delegate;
 }
 
 #pragma mark -

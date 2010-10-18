@@ -1,15 +1,10 @@
-//
-//  PartRetardAppDelegate.h
-//  PartRetard
-//
-
-@interface PartRetardAppDelegate : NSObject <UIApplicationDelegate>
+@interface PixnetAppDelegate : NSObject <UIApplicationDelegate>
 {
     UIWindow *window;
     UINavigationController *navigationController;
 }
 
-+ (PartRetardAppDelegate *)sharedDelegate;
++ (PixnetAppDelegate *)sharedDelegate;
 - (NSString *)applicationDocumentsDirectory;
 
 @property (nonatomic, retain) UIWindow *window;
