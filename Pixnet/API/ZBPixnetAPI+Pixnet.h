@@ -146,7 +146,7 @@ typedef enum {
 - (void)API:(ZBPixnetAPI *)inAPI didReorderAlbumSets:(NSDictionary *)inAlbumSet;
 - (void)API:(ZBPixnetAPI *)inAPI didFailReorderingAlbumSets:(NSError *)inError;
 
-#pragma mark Album Folders
+#pragma mark Album Folders (VIP)
 
 - (void)API:(ZBPixnetAPI *)inAPI didFetchAlbumFolders:(NSDictionary *)inAlbumFolders;
 - (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAlbumFolders:(NSError *)inError;
@@ -221,7 +221,7 @@ typedef enum {
 - (void)deleteAlbumSet:(NSString *)albumSetID  delegate:(id <ZBPixnetAPIDelegate>)delegate;
 - (void)reorderAlbumSetsWithIDArray:(NSArray *)albumSetIDArray delegate:(id <ZBPixnetAPIDelegate>)delegate;
 
-#pragma mark Album Folders
+#pragma mark Album Folders (VIP)
 
 - (void)fetchAlbumFolderOfUser:(NSString *)userID hideUserInfo:(BOOL)hideUserInfo page:(NSUInteger)page albumFoldersPerPage:(NSUInteger)perPage delegate:(id <ZBPixnetAPIDelegate>)delegate;
 - (void)fetchAlbumFolder:(NSString *)albumFolderID albumOwner:(NSString *)userID delegate:(id <ZBPixnetAPIDelegate>)delegate;

@@ -1,6 +1,5 @@
 #import "ZBPixnetAPI.h"
 #import "ZBPixnetAPI+Private.h"
-#import "APIKey.h"
 
 static ZBPixnetAPI *sharedAPI;
 
@@ -15,7 +14,7 @@ NSString *const ZBPixnetAPILogoutNotification = @"ZBPixnetAPILogoutNotification"
 + (ZBPixnetAPI *)sharedAPI
 {
 	if (!sharedAPI) {
-		sharedAPI = [[ZBPixnetAPI alloc] init];
+		sharedAPI = [[ZBPixnetAPI alloc] initWithPrefix:nil consumerKey:nil secret:nil];
 	}
 	return sharedAPI;
 }
@@ -27,41 +26,52 @@ NSString *const ZBPixnetAPILogoutNotification = @"ZBPixnetAPILogoutNotification"
 	[accessToken release];
 	[currentViewController release];
 	[fetchQueue release];
+	[prefix release];
 	
 	[super dealloc];
 }
 
-- (id)init
+- (id)initWithPrefix:(NSString *)inPrefix consumerKey:(NSString *)inKey secret:(NSString *)inSecret
 {
 	self = [super init];
 	if (self != nil) {
-		consumer = [[OAConsumer alloc] initWithKey:CONSUMER_KEY secret:CONSUMER_SECRET];
-		NSDictionary *appInfo = [[NSBundle bundleForClass:[self class]] infoDictionary];
-		NSString *appName = [appInfo valueForKey:@"CFBundleName"];
-		NSString *appIdentifier = [appInfo valueForKey:@"CFBundleIdentifier"];		
-		OAToken *aToken = [[[OAToken alloc] initWithUserDefaultsUsingServiceProviderName:appName prefix:appIdentifier] autorelease];
-		if (![aToken hasExpired]) {
-			self.accessToken = aToken;
-		}
+		prefix = [inPrefix retain];
 		fetchQueue = [[NSOperationQueue alloc] init];
+		[self setConsumerKey:inKey secret:inSecret];
 	}
 	return self;
+}
+- (void)setConsumerKey:(NSString *)inKey secret:(NSString *)inSecret
+{
+	id tmp = consumer;
+	consumer = [[OAConsumer alloc] initWithKey:inKey secret:inSecret];
+	NSDictionary *appInfo = [[NSBundle bundleForClass:[self class]] infoDictionary];
+	NSString *appName = [appInfo valueForKey:@"CFBundleName"];
+	NSString *appIdentifier = [appInfo valueForKey:@"CFBundleIdentifier"];
+	if ([prefix length]) {
+		appIdentifier = prefix;
+	}
+	OAToken *aToken = [[[OAToken alloc] initWithUserDefaultsUsingServiceProviderName:appName prefix:appIdentifier] autorelease];
+	if (![aToken hasExpired]) {
+		self.accessToken = aToken;
+	}
+	[tmp release];
 }
 
 #pragma mark -
 #pragma mark Login and OAuth
+
+- (void)loginWithController:(UIViewController *)controller
+{
+	self.currentViewController = controller;
+	[self fetchRequestToken];
+}
 
 - (void)logout
 {
 	self.accessToken = nil;
 	self.requestToken = nil;
 	[[NSNotificationCenter defaultCenter] postNotificationName:ZBPixnetAPILogoutNotification object:self];	
-}
-
-- (void)loginWithController:(UIViewController *)controller
-{
-	self.currentViewController = controller;
-	[self fetchRequestToken];
 }
 
 #pragma mark -

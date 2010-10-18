@@ -30,6 +30,7 @@ extern NSString *const kPixetAPIURL;
 	
 	UIViewController <ZBPixnetAPILoginDelegate> *currentViewController;
 	NSOperationQueue *fetchQueue;
+	NSString *prefix;
 }
 
 + (ZBPixnetAPI *)sharedAPI;
@@ -37,9 +38,11 @@ extern NSString *const kPixetAPIURL;
 #pragma mark -
 #pragma mark Login
 
-- (void)logout;
-- (void)loginWithController:(UIViewController <ZBPixnetAPILoginDelegate> *)controller;
+- (id)initWithPrefix:(NSString *)inPrefix consumerKey:(NSString *)inKey secret:(NSString *)inSecret;
+- (void)setConsumerKey:(NSString *)inKey secret:(NSString *)inSecret;
 
+- (void)loginWithController:(UIViewController <ZBPixnetAPILoginDelegate> *)controller;
+- (void)logout;
 
 #pragma mark -
 #pragma mark Properties

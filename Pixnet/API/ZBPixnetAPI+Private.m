@@ -86,6 +86,9 @@ static NSString *const kAccessTokenURL = @"http://emma.pixnet.cc/oauth/access_to
 		NSDictionary *appInfo = [[NSBundle bundleForClass:[self class]] infoDictionary];
 		NSString *appName = [appInfo valueForKey:@"CFBundleName"];
 		NSString *appIdentifier = [appInfo valueForKey:@"CFBundleIdentifier"];		
+		if ([prefix length]) {
+			appIdentifier = prefix;
+		}		
 		[accessToken storeInUserDefaultsWithServiceProviderName:appName prefix:appIdentifier];
 		
 		if (self.currentViewController && [self.currentViewController respondsToSelector:@selector(APIDidLogin:)]) {

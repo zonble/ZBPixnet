@@ -93,7 +93,6 @@
 		D4499CDB12428C7D0057969C /* OAuthConsumer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OAuthConsumer.h; sourceTree = "<group>"; };
 		D4499CF312428CCD0057969C /* ZBPixnetAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZBPixnetAPI.h; path = API/ZBPixnetAPI.h; sourceTree = "<group>"; };
 		D4499CF412428CCD0057969C /* ZBPixnetAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZBPixnetAPI.m; path = API/ZBPixnetAPI.m; sourceTree = "<group>"; };
-		D4499D1F12428E100057969C /* APIKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APIKey.h; path = API/APIKey.h; sourceTree = "<group>"; };
 		D4591DFB1269FDB400F41FFB /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		D4591F77126A16C000F41FFB /* ZBFetchOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZBFetchOperation.h; path = API/ZBFetchOperation.h; sourceTree = "<group>"; };
 		D4591F78126A16C000F41FFB /* ZBFetchOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZBFetchOperation.m; path = API/ZBFetchOperation.m; sourceTree = "<group>"; };
@@ -114,6 +113,7 @@
 		D45924B0126A71A300F41FFB /* ZBLoginWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZBLoginWebViewController.m; path = API/ZBLoginWebViewController.m; sourceTree = "<group>"; };
 		D45924B2126A71AC00F41FFB /* ZBPixnetAPI+Pixnet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ZBPixnetAPI+Pixnet.h"; path = "API/ZBPixnetAPI+Pixnet.h"; sourceTree = "<group>"; };
 		D45924B3126A71AC00F41FFB /* ZBPixnetAPI+Pixnet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "ZBPixnetAPI+Pixnet.m"; path = "API/ZBPixnetAPI+Pixnet.m"; sourceTree = "<group>"; };
+		D4C5962C126CE334005938D9 /* APIKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIKey.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +134,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D4C5962C126CE334005938D9 /* APIKey.h */,
 				28C286DF0D94DF7D0034E888 /* RootViewController.h */,
 				28C286E00D94DF7D0034E888 /* RootViewController.m */,
 				1D3623240D0F684500981E51 /* PixnetAppDelegate.h */,
@@ -264,7 +265,6 @@
 		D4499CF012428C950057969C /* API */ = {
 			isa = PBXGroup;
 			children = (
-				D4499D1F12428E100057969C /* APIKey.h */,
 				D4592487126A70D400F41FFB /* ZBPixnet.h */,
 				D4499CF312428CCD0057969C /* ZBPixnetAPI.h */,
 				D4499CF412428CCD0057969C /* ZBPixnetAPI.m */,

@@ -1,7 +1,7 @@
-
 #import "PixnetAppDelegate.h"
 #import "RootViewController.h"
-
+#import "ZBPixnet.h"
+#import "APIKey.h"
 
 @implementation PixnetAppDelegate
 
@@ -25,6 +25,8 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
+	[[ZBPixnetAPI sharedAPI] setConsumerKey:CONSUMER_KEY secret:CONSUMER_SECRET];
+	
 	window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
 	RootViewController *rootViewController = [[RootViewController alloc] initWithStyle:UITableViewStylePlain];
 	navigationController = [[UINavigationController alloc] initWithRootViewController:rootViewController];

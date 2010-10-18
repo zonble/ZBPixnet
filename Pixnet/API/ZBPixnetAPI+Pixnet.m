@@ -647,7 +647,7 @@ static NSString *const kPixnetAlbumFoldersPosition = @"album/folders/position";
 	[self doFetchWithPath:kPixnetAlbumSetsPosition method:@"POST" delegate:delegate didFinishSelector:@selector(API:didReorderAlbumSets:) didFailSelector:@selector(API:didFailReorderingAlbumSets:) parameters:parameters];
 }
 
-#pragma mark Album Folders
+#pragma mark Album Folders (VIP)
 
 - (void)fetchAlbumFolderOfUser:(NSString *)userID hideUserInfo:(BOOL)hideUserInfo page:(NSUInteger)page albumFoldersPerPage:(NSUInteger)perPage delegate:(id <ZBPixnetAPIDelegate>)delegate
 {
