@@ -27,6 +27,21 @@
 	return self;
 }
 
+- (id)init:(OAMutableURLRequest *)aRequest delegate:(id)aDelegate didFinishSelector:(SEL)finishSelector didFailSelector:(SEL)failSelector didSendDataSelector:(SEL)sendDataSelector userInfo:(id)inuserInfo
+{
+	self = [super init];
+	if (self != nil) {
+		request = [aRequest retain];
+		delegate = aDelegate;
+		didFinishSelector = finishSelector;
+		didFailSelector = failSelector;	
+		didSendDataSelector = sendDataSelector;
+		userInfo = [inuserInfo retain];
+		responseData = [[NSMutableData alloc] init];
+	}
+	return self;
+}
+
 - (BOOL)isConcurrent
 {
 	return YES;
@@ -90,20 +105,35 @@
 
 - (void)connection:(NSURLConnection *)inConnection didFailWithError:(NSError *)error 
 {
-	OAServiceTicket *ticket = [[[OAServiceTicket alloc] initWithRequest:request response:response data:responseData didSucceed:NO] autorelease];
-	ticket.userInfo = userInfo;
-	[self performDelegateSelector:didFailSelector withObject:ticket withObject:error];
+	if (didFailSelector != NULL) {
+		OAServiceTicket *ticket = [[[OAServiceTicket alloc] initWithRequest:request response:response data:responseData didSucceed:NO] autorelease];
+		ticket.userInfo = userInfo;
+		[self performDelegateSelector:didFailSelector withObject:ticket withObject:error];
+	}
 	running = NO;
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)inConnection 
 {
-	OAServiceTicket *ticket = [[[OAServiceTicket alloc] initWithRequest:request response:response data:responseData didSucceed:[(NSHTTPURLResponse *)response statusCode] < 400] autorelease];
-	ticket.userInfo = userInfo;
-	[self performDelegateSelector:didFinishSelector withObject:ticket withObject:responseData];
+	if (didFinishSelector != NULL) {
+		OAServiceTicket *ticket = [[[OAServiceTicket alloc] initWithRequest:request response:response data:responseData didSucceed:[(NSHTTPURLResponse *)response statusCode] < 400] autorelease];
+		ticket.userInfo = userInfo;
+		[self performDelegateSelector:didFinishSelector withObject:ticket withObject:responseData];
+	}
 	running = NO;
 }
 
+- (void)connection:(NSURLConnection *)inConnection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
+{
+	if (didSendDataSelector == NULL) {
+		return;
+	}
+	NSMutableDictionary *process = [NSMutableDictionary dictionary];
+	[process setObject:[NSNumber numberWithInteger:totalBytesWritten] forKey:@"totalBytesWritten"];
+	[process setObject:[NSNumber numberWithInteger:totalBytesExpectedToWrite] forKey:@"totalBytesExpectedToWrite"];
+	[self performDelegateSelector:didSendDataSelector withObject:process withObject:userInfo];
+}
 
+@synthesize userInfo;
 
 @end

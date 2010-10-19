@@ -38,6 +38,7 @@
 		D4592452126A6EAA00F41FFB /* ZBPixnetAPI+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = D4592451126A6EAA00F41FFB /* ZBPixnetAPI+Private.m */; };
 		D45924B1126A71A300F41FFB /* ZBLoginWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D45924B0126A71A300F41FFB /* ZBLoginWebViewController.m */; };
 		D45924B4126A71AC00F41FFB /* ZBPixnetAPI+Pixnet.m in Sources */ = {isa = PBXBuildFile; fileRef = D45924B3126A71AC00F41FFB /* ZBPixnetAPI+Pixnet.m */; };
+		D488358A126D49DB00665D05 /* pix.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D4883589126D49DB00665D05 /* pix.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -104,6 +105,7 @@
 		D45924B0126A71A300F41FFB /* ZBLoginWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZBLoginWebViewController.m; path = API/ZBLoginWebViewController.m; sourceTree = "<group>"; };
 		D45924B2126A71AC00F41FFB /* ZBPixnetAPI+Pixnet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ZBPixnetAPI+Pixnet.h"; path = "API/ZBPixnetAPI+Pixnet.h"; sourceTree = "<group>"; };
 		D45924B3126A71AC00F41FFB /* ZBPixnetAPI+Pixnet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "ZBPixnetAPI+Pixnet.m"; path = "API/ZBPixnetAPI+Pixnet.m"; sourceTree = "<group>"; };
+		D4883589126D49DB00665D05 /* pix.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = pix.jpg; sourceTree = "<group>"; };
 		D4C5962C126CE334005938D9 /* APIKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIKey.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -168,6 +170,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D4883588126D49DB00665D05 /* Resources */,
 				8D1107310486CEB800E47090 /* ZBPixnet-Info.plist */,
 			);
 			name = Resources;
@@ -282,6 +285,14 @@
 			name = BSJSONAdditions;
 			sourceTree = "<group>";
 		};
+		D4883588126D49DB00665D05 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D4883589126D49DB00665D05 /* pix.jpg */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -331,6 +342,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D488358A126D49DB00665D05 /* pix.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

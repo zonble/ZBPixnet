@@ -127,6 +127,22 @@ static NSString *const kAccessTokenURL = @"http://emma.pixnet.cc/oauth/access_to
 	[fetchQueue addOperation:operation];
 	[operation autorelease];	
 }
+- (void)doUploadWithPath:(NSString *)path filepath:(NSString *)filepath delegate:(id)delegate didFinishSelector:(SEL)didFinishSelector didFailSelector:(SEL)didFailSelector didSendDataSelector:(SEL)didSendDataSelector parameters:(NSArray *)inParameters
+{
+	NSString *URLString = [NSString stringWithFormat:@"%@%@", kPixetAPIURL, path];
+	NSURL *URL = [NSURL URLWithString:URLString];
+	OAMutableURLRequest *request = [[[OAMutableURLRequest alloc] initWithURL:URL consumer:consumer token:self.accessToken realm:nil signatureProvider:nil] autorelease];
+	NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:NSStringFromSelector(didFinishSelector), @"didFinishSelector", NSStringFromSelector(didFailSelector), @"didFailSelector", NSStringFromSelector(didSendDataSelector), @"didSendDataSelector", delegate, @"delegate", filepath, @"filepath", nil];
+	[request setHTTPMethod:@"POST"];
+	if ([inParameters count]) {
+		[request setParameters:inParameters];
+	}
+	NSData *data = [NSData dataWithContentsOfFile:filepath];
+	[request attachFileWithName:[path lastPathComponent]  filename:[path lastPathComponent] contentType:@"image/jpeg" data:data];
+	ZBFetchOperation *operation = [[ZBFetchOperation alloc] init:request delegate:self didFinishSelector:@selector(pixnetAPITicket:didFinishWithData:) didFailSelector:@selector(pixnetAPITicket:didFailWithError:) didSendDataSelector:@selector(pixnetAPIUploadProccess:userInfo:) userInfo:userInfo];
+	[fetchQueue addOperation:operation];
+	[operation autorelease];
+}
 
 - (void)pixnetAPITicket:(OAServiceTicket *)ticket didFinishWithData:(NSData *)data
 {
@@ -154,12 +170,19 @@ static NSString *const kAccessTokenURL = @"http://emma.pixnet.cc/oauth/access_to
 
 - (void)pixnetAPITicket:(OAServiceTicket *)ticket didFailWithError:(NSError *)error
 {
-	NSLog(@"%s", __PRETTY_FUNCTION__);
 	NSDictionary *userInfo = ticket.userInfo;
 	id <ZBPixnetAPIDelegate> delegate = [userInfo valueForKey:@"delegate"];
 	SEL didFailSelector = NSSelectorFromString([userInfo valueForKey:@"didFailSelector"]);
 	if ([delegate respondsToSelector:didFailSelector]) {
 		[delegate performSelector:didFailSelector withObject:self withObject:error];
+	}	
+}
+- (void)pixnetAPIUploadProccess:(NSDictionary *)process userInfo:(NSDictionary *)userInfo
+{
+	id <ZBPixnetAPIDelegate> delegate = [userInfo valueForKey:@"delegate"];
+	SEL didSendDataSelector = NSSelectorFromString([userInfo valueForKey:@"didSendDataSelector"]);
+	if ([delegate respondsToSelector:didSendDataSelector]) {
+		[delegate performSelector:didSendDataSelector withObject:self withObject:process];
 	}	
 }
 

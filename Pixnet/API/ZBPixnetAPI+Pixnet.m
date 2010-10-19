@@ -750,7 +750,7 @@ static NSString *const kPixnetAlbumElementsPosition = @"album/elements/position"
 				albumSetID = nil;
 			}
 		}
-	}	
+	}
 	NSMutableArray *parameters = [NSMutableArray array];
 	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"set_id" value:albumSetID] autorelease]];
 	if ([userID length]) {
@@ -783,8 +783,45 @@ static NSString *const kPixnetAlbumElementsPosition = @"album/elements/position"
 	}
 	[self doFetchWithPath:path method:@"GET" delegate:delegate didFinishSelector:@selector(API:didFetchAlbumElement:) didFailSelector:@selector(API:didFailFetchingAlbumElement:) parameters:parameters];
 }
-- (void)uploadFile:(NSString *)filepath toTagetAlbumSet:(NSString *)albumSetID title:(NSString *)title description:(NSString *)description videoThumbnailType:(NSString *)videoThumbnailType optimized:(BOOL)optimized rotateByEXIF:(BOOL)rotateByEXIF rotateByMetadata:(BOOL)rotateByMetadata useSquareTHumbnail:(BOOL)useSquareTHumbnail addWatermark:(BOOL)addWatermark insertAtEngin:(BOOL)insertAtEngin delegate:(id <ZBPixnetAPIDelegate>)delegate
+- (void)uploadFile:(NSString *)filepath toTagetAlbumSet:(NSString *)albumSetID title:(NSString *)title description:(NSString *)description videoThumbnailType:(NSString *)videoThumbnailType optimized:(BOOL)optimized rotateByEXIF:(BOOL)rotateByEXIF rotateByMetadata:(BOOL)rotateByMetadata useSquareThumbnail:(BOOL)useSquareThumbnail addWatermark:(BOOL)addWatermark insertAtEngin:(BOOL)insertAtEngin delegate:(id <ZBPixnetAPIDelegate>)delegate
 {
+	if (albumSetID) {
+		if (![albumSetID isKindOfClass:[NSString class]]) {
+			if ([albumSetID respondsToSelector:@selector(stringValue)]) {
+				albumSetID = [(id)albumSetID stringValue];
+			}
+			else {
+				albumSetID = nil;
+			}
+		}
+	}
+	NSMutableArray *parameters = [NSMutableArray array];
+	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"set_id" value:albumSetID] autorelease]];
+	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"title" value:title] autorelease]];
+	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"description" value:description] autorelease]];
+	if ([videoThumbnailType length]) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"video_thumb_type" value:videoThumbnailType] autorelease]];
+	}
+	if (optimized) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"optimized_size" value:@"1"] autorelease]];
+	}
+	if (rotateByEXIF) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"rotate_by_exif" value:@"1"] autorelease]];
+	}
+	if (rotateByMetadata) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"rotate_by_meta" value:@"1"] autorelease]];
+	}
+	if (useSquareThumbnail) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"quadrate" value:@"1"] autorelease]];
+	}
+	if (addWatermark) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"add_watermark" value:@"1"] autorelease]];
+	}
+	if (insertAtEngin) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"element_first" value:@"1"] autorelease]];
+	}
+	
+	[self doUploadWithPath:kPixnetAlbumElements filepath:filepath delegate:delegate didFinishSelector:@selector(API:didFetchAlbumElement:) didFailSelector:@selector(API:didFailUploadingAlbumElement:) didSendDataSelector:@selector(API:didProcessUploadingAlbumElement:) parameters:parameters];
 }
 - (void)editElement:(NSString *)elementID title:(NSString *)title description:(NSString *)description videoThumbnailType:(NSString *)videoThumbnailType delegate:(id <ZBPixnetAPIDelegate>)delegate
 {
@@ -802,7 +839,9 @@ static NSString *const kPixnetAlbumElementsPosition = @"album/elements/position"
 	NSMutableArray *parameters = [NSMutableArray array];
 	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"title" value:title] autorelease]];
 	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"description" value:description] autorelease]];
-	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"video_thumb_type" value:videoThumbnailType] autorelease]];
+	if ([videoThumbnailType length]) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"video_thumb_type" value:videoThumbnailType] autorelease]];
+	}
 	[self doFetchWithPath:path method:@"POST" delegate:delegate didFinishSelector:@selector(API:didEditAlbumElement:) didFailSelector:@selector(API:didFailEditingAlbumElement:) parameters:parameters];	
 }
 - (void)deleteElement:(NSString *)elementID delegate:(id <ZBPixnetAPIDelegate>)delegate

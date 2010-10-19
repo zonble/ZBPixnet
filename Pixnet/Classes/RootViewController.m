@@ -138,6 +138,8 @@
 //	[API deleteAlbumFolder:@"14444157" delegate:self];
 //	[API fetchElementsInAlbumSet:@"943632" elementOwner:@"zonble" page:1 elementsPerPage:100 delegate:self];
 //	[API fetchElement:@"28992063" elementOwner:@"zonble" delegate:self];
+	NSString *path = [[NSBundle mainBundle] pathForResource:@"pix" ofType:@"jpg"];	
+	[API uploadFile:path toTagetAlbumSet:@"14459791" title:@"Test" description:@"Test" videoThumbnailType:nil optimized:YES rotateByEXIF:YES rotateByMetadata:YES useSquareThumbnail:YES addWatermark:YES insertAtEngin:NO delegate:self];
 }
 
 #pragma mark -
@@ -406,22 +408,26 @@
 //{
 //	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
 //}
-//- (void)API:(ZBPixnetAPI *)inAPI didFetchAlbumElements:(NSDictionary *)inAlbumElements
-//{
-//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumElements);
-//}
-//- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAlbumElements:(NSError *)inError
-//{
-//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-//}
-//- (void)API:(ZBPixnetAPI *)inAPI didFetchAlbumElement:(NSDictionary *)inAlbumElement
-//{
-//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumElement);
-//}
-//- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAlbumElement:(NSError *)inError
-//{
-//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
-//}
+- (void)API:(ZBPixnetAPI *)inAPI didFetchAlbumElements:(NSDictionary *)inAlbumElements
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumElements);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAlbumElements:(NSError *)inError
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFetchAlbumElement:(NSDictionary *)inAlbumElement
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumElement);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAlbumElement:(NSError *)inError
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didProcessUploadingAlbumElement:(NSDictionary *)inProcess
+{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inProcess);
+}
 - (void)API:(ZBPixnetAPI *)inAPI didUploadAlbumElement:(NSDictionary *)inAlbumElement
 {
 	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumElement);
