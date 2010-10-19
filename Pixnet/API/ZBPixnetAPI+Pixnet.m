@@ -739,23 +739,113 @@ static NSString *const kPixnetAlbumElementsPosition = @"album/elements/position"
 
 #pragma mark Album Elements (Media Files)
 
-- (void)fetchElementsInAlbumSet:(NSString *)albumSetID elementOwner:(NSString *)userID page:(NSUInteger)page elementsPerPage:(NSUInteger)elementsPerPage delegate:(id <ZBPixnetAPIDelegate>)delegate
+- (void)fetchElementsInAlbumSet:(NSString *)albumSetID elementOwner:(NSString *)userID page:(NSUInteger)page elementsPerPage:(NSUInteger)perPage delegate:(id <ZBPixnetAPIDelegate>)delegate
 {
+	if (albumSetID) {
+		if (![albumSetID isKindOfClass:[NSString class]]) {
+			if ([albumSetID respondsToSelector:@selector(stringValue)]) {
+				albumSetID = [(id)albumSetID stringValue];
+			}
+			else {
+				albumSetID = nil;
+			}
+		}
+	}	
+	NSMutableArray *parameters = [NSMutableArray array];
+	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"set_id" value:albumSetID] autorelease]];
+	if ([userID length]) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"user" value:userID] autorelease]];
+	}
+	if (page > 1) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"page" value:[[NSNumber numberWithUnsignedInt:page] stringValue]] autorelease]];
+	}
+	if (perPage && perPage != 100) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"per_page" value:[[NSNumber numberWithUnsignedInt:perPage] stringValue]] autorelease]];
+	}	
+	[self doFetchWithPath:kPixnetAlbumElements method:@"GET" delegate:delegate didFinishSelector:@selector(API:didFetchAlbumElements:) didFailSelector:@selector(API:didFailFetchingAlbumElements:) parameters:parameters];	
 }
 - (void)fetchElement:(NSString *)elementID elementOwner:(NSString *)userID delegate:(id <ZBPixnetAPIDelegate>)delegate
 {
+	if (elementID) {
+		if (![elementID isKindOfClass:[NSString class]]) {
+			if ([elementID respondsToSelector:@selector(stringValue)]) {
+				elementID = [(id)elementID stringValue];
+			}
+			else {
+				elementID = nil;
+			}
+		}
+	}
+	NSString *path = [kPixnetAlbumElements stringByAppendingFormat:@"/%@", [elementID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	NSMutableArray *parameters = [NSMutableArray array];
+	if ([userID length]) {
+		[parameters addObject:[[[OARequestParameter alloc] initWithName:@"user" value:userID] autorelease]];
+	}
+	[self doFetchWithPath:path method:@"GET" delegate:delegate didFinishSelector:@selector(API:didFetchAlbumElement:) didFailSelector:@selector(API:didFailFetchingAlbumElement:) parameters:parameters];
 }
 - (void)uploadFile:(NSString *)filepath toTagetAlbumSet:(NSString *)albumSetID title:(NSString *)title description:(NSString *)description videoThumbnailType:(NSString *)videoThumbnailType optimized:(BOOL)optimized rotateByEXIF:(BOOL)rotateByEXIF rotateByMetadata:(BOOL)rotateByMetadata useSquareTHumbnail:(BOOL)useSquareTHumbnail addWatermark:(BOOL)addWatermark insertAtEngin:(BOOL)insertAtEngin delegate:(id <ZBPixnetAPIDelegate>)delegate
 {
 }
-- (void)editElement:(NSString *)elementID toTagetAlbumSet:(NSString *)albumSetID title:(NSString *)title description:(NSString *)description videoThumbnailType:(NSString *)videoThumbnailType delegate:(id <ZBPixnetAPIDelegate>)delegate
+- (void)editElement:(NSString *)elementID title:(NSString *)title description:(NSString *)description videoThumbnailType:(NSString *)videoThumbnailType delegate:(id <ZBPixnetAPIDelegate>)delegate
 {
+	if (elementID) {
+		if (![elementID isKindOfClass:[NSString class]]) {
+			if ([elementID respondsToSelector:@selector(stringValue)]) {
+				elementID = [(id)elementID stringValue];
+			}
+			else {
+				elementID = nil;
+			}
+		}
+	}	
+	NSString *path = [kPixnetAlbumElements stringByAppendingFormat:@"/%@", [elementID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	NSMutableArray *parameters = [NSMutableArray array];
+	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"title" value:title] autorelease]];
+	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"description" value:description] autorelease]];
+	[parameters addObject:[[[OARequestParameter alloc] initWithName:@"video_thumb_type" value:videoThumbnailType] autorelease]];
+	[self doFetchWithPath:path method:@"POST" delegate:delegate didFinishSelector:@selector(API:didEditAlbumElement:) didFailSelector:@selector(API:didFailEditingAlbumElement:) parameters:parameters];	
 }
 - (void)deleteElement:(NSString *)elementID delegate:(id <ZBPixnetAPIDelegate>)delegate
 {
+	if (elementID) {
+		if (![elementID isKindOfClass:[NSString class]]) {
+			if ([elementID respondsToSelector:@selector(stringValue)]) {
+				elementID = [(id)elementID stringValue];
+			}
+			else {
+				elementID = nil;
+			}
+		}
+	}	
+	NSString *path = [kPixnetAlbumElements stringByAppendingFormat:@"/%@", [elementID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	[self doFetchWithPath:path method:@"DELETE" delegate:delegate didFinishSelector:@selector(API:didDeleteAlbumElement:) didFailSelector:@selector(API:didFailDeletingAlbumElement:) parameters:nil];	
+
 }
 - (void)reorderElementsWithIDArray:(NSArray *)elementIDArray delegate:(id <ZBPixnetAPIDelegate>)delegate
 {
+	NSMutableString *ids = [NSMutableString string];
+	for (NSString *elementID in elementIDArray) {
+		if (![elementID isKindOfClass:[NSString class]]) {
+			if ([elementID respondsToSelector:@selector(stringValue)]) {
+				elementID = [(id)elementID stringValue];
+			}
+			else {
+				elementID = nil;
+			}
+		}
+		if (![elementID length]) {
+			continue;
+		}
+		[ids appendString:elementID];
+		if (![elementID isEqual:[elementIDArray lastObject]]) {
+			[ids appendString:@","];
+		}
+	}
+	NSArray *parameters = [NSArray arrayWithObjects:[[[OARequestParameter alloc] initWithName:@"ids" value:ids] autorelease], nil];	
+	[self doFetchWithPath:kPixnetAlbumElementsPosition method:@"POST" delegate:delegate didFinishSelector:@selector(API:didReorderAlbumElement:) didFailSelector:@selector(API:didFailReorderingAlbumElement:) parameters:parameters];	
 }
+
+//static NSString *const kPixnetAlbumElements = @"album/elements";
+//static NSString *const kPixnetAlbumElementsPosition = @"album/elements/position";
 
 @end

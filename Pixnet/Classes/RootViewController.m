@@ -136,6 +136,8 @@
 //	[API createAlbumFolderWithTitle:@"Test" desciption:@"Test" delegate:self];
 //	[API editAlbumFolder:@"14444157" title:@"Test" desciption:@"Test" delegate:self];
 //	[API deleteAlbumFolder:@"14444157" delegate:self];
+//	[API fetchElementsInAlbumSet:@"943632" elementOwner:@"zonble" page:1 elementsPerPage:100 delegate:self];
+//	[API fetchElement:@"28992063" elementOwner:@"zonble" delegate:self];
 }
 
 #pragma mark -
@@ -404,7 +406,55 @@
 //{
 //	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
 //}
-//
+//- (void)API:(ZBPixnetAPI *)inAPI didFetchAlbumElements:(NSDictionary *)inAlbumElements
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumElements);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAlbumElements:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFetchAlbumElement:(NSDictionary *)inAlbumElement
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumElement);
+//}
+//- (void)API:(ZBPixnetAPI *)inAPI didFailFetchingAlbumElement:(NSError *)inError
+//{
+//	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+//}
+- (void)API:(ZBPixnetAPI *)inAPI didUploadAlbumElement:(NSDictionary *)inAlbumElement
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumElement);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFailUploadingAlbumElement:(NSError *)inError
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didEditAlbumElement:(NSDictionary *)inAlbumElement
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumElement);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFailEditingAlbumElement:(NSError *)inError
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didDeleteAlbumElement:(NSDictionary *)inAlbumElement
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumElement);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFailDeletingAlbumElement:(NSError *)inError
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didReorderAlbumElement:(NSDictionary *)inAlbumElements
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inAlbumElements);
+}
+- (void)API:(ZBPixnetAPI *)inAPI didFailReorderingAlbumElement:(NSError *)inError
+{
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, inError);
+}
+
 
 #pragma mark Table view methods
 

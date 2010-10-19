@@ -181,7 +181,7 @@ typedef enum {
 - (void)API:(ZBPixnetAPI *)inAPI didEditAlbumElement:(NSDictionary *)inAlbumElement;
 - (void)API:(ZBPixnetAPI *)inAPI didFailEditingAlbumElement:(NSError *)inError;
 
-- (void)API:(ZBPixnetAPI *)inAPI didDeleteAlbumElement:(NSDictionary *)inAlbumElement;
+- (void)API:(ZBPixnetAPI *)inAPI didDeleteAlbumElement:(NSDictionary *)inMessage;
 - (void)API:(ZBPixnetAPI *)inAPI didFailDeletingAlbumElement:(NSError *)inError;
 
 - (void)API:(ZBPixnetAPI *)inAPI didReorderAlbumElement:(NSDictionary *)inAlbumElements;
@@ -258,7 +258,7 @@ typedef enum {
 - (void)fetchElementsInAlbumSet:(NSString *)albumSetID elementOwner:(NSString *)userID page:(NSUInteger)page elementsPerPage:(NSUInteger)elementsPerPage delegate:(id <ZBPixnetAPIDelegate>)delegate;
 - (void)fetchElement:(NSString *)elementID elementOwner:(NSString *)userID delegate:(id <ZBPixnetAPIDelegate>)delegate;
 - (void)uploadFile:(NSString *)filepath toTagetAlbumSet:(NSString *)albumSetID title:(NSString *)title description:(NSString *)description videoThumbnailType:(NSString *)videoThumbnailType optimized:(BOOL)optimized rotateByEXIF:(BOOL)rotateByEXIF rotateByMetadata:(BOOL)rotateByMetadata useSquareTHumbnail:(BOOL)useSquareTHumbnail addWatermark:(BOOL)addWatermark insertAtEngin:(BOOL)insertAtEngin delegate:(id <ZBPixnetAPIDelegate>)delegate;
-- (void)editElement:(NSString *)elementID toTagetAlbumSet:(NSString *)albumSetID title:(NSString *)title description:(NSString *)description videoThumbnailType:(NSString *)videoThumbnailType delegate:(id <ZBPixnetAPIDelegate>)delegate;
+- (void)editElement:(NSString *)elementID title:(NSString *)title description:(NSString *)description videoThumbnailType:(NSString *)videoThumbnailType delegate:(id <ZBPixnetAPIDelegate>)delegate;
 - (void)deleteElement:(NSString *)elementID delegate:(id <ZBPixnetAPIDelegate>)delegate;
 - (void)reorderElementsWithIDArray:(NSArray *)elementIDArray delegate:(id <ZBPixnetAPIDelegate>)delegate;
 
